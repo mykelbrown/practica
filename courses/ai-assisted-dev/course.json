@@ -1,0 +1,351 @@
+{
+  "id": "ai-assisted-dev",
+  "title": "AI-Assisted Software Engineering",
+  "track": "foundations",
+  "summary": "Work effectively with AI coding agents: specifying, reviewing, testing and owning AI-written code.",
+  "why_now": "Coding agents are changing how software is built; engineers who direct and verify them well ship far more.",
+  "careers": [
+    "Software Engineer",
+    "Tech Lead",
+    "Engineering Manager"
+  ],
+  "outcomes": [
+    "Direct coding agents with clear specs",
+    "Review and test AI-written code",
+    "Build team workflows around agents"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 30,
+      "capstone": "Build a small app with an agent, keeping a written spec, tests and review log",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "Working with coding agents",
+          "outcome": "Get good results from day one",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "How coding agents work",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Writing specs and acceptance criteria",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Context: files, docs and memory",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Verification",
+          "outcome": "Trust nothing you have not checked",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Reading diffs critically",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Tests as the contract",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Spotting hallucinated APIs",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Version control with agents",
+          "outcome": "Keep history clean",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Small commits and branches",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Pull requests and descriptions",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Reverting safely",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 40,
+      "capstone": "Use an agent to add a feature to an unfamiliar codebase, with design notes and tests",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Codebase navigation",
+          "outcome": "Understand code you did not write",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Exploring large repositories",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Tracing behaviour",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Documenting findings",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Test-driven agent work",
+          "outcome": "Let tests steer the agent",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Red-green-refactor with agents",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Property and regression tests",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Coverage that matters",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Security and quality",
+          "outcome": "Avoid new risks",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Security review of AI code",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Dependency hygiene",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Licences and provenance",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 50,
+      "capstone": "Automate a team workflow with agents in CI, hooks and review bots",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Automation",
+          "outcome": "Put agents to work in pipelines",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Agents in CI",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Hooks and guardrails",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Scheduled and background agents",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Extending agents",
+          "outcome": "Give agents the right tools",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Custom commands and skills",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "MCP servers for your systems",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Permissions design",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Multi-agent work",
+          "outcome": "Parallelise safely",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Splitting work across agents",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Merging and conflict handling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Cost and quality trade-offs",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 60,
+      "capstone": "Write and pilot an AI engineering playbook for a team",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Team practice",
+          "outcome": "Scale what works",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Team conventions for agents",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Review policies",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Measuring productivity honestly",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Risk and governance",
+          "outcome": "Use AI responsibly",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Data handling and privacy",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Auditability",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Incident handling for AI changes",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Leadership",
+          "outcome": "Lead the change",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Change management",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Training others",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Choosing tools",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

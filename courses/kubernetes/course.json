@@ -1,0 +1,351 @@
+{
+  "id": "kubernetes",
+  "title": "Kubernetes & Cloud-Native",
+  "track": "infra",
+  "summary": "Deep Kubernetes: workloads, networking, storage, security, operators and multi-cluster operations.",
+  "why_now": "Kubernetes is the default runtime for AI inference and platform teams.",
+  "careers": [
+    "Kubernetes Administrator",
+    "Platform Engineer",
+    "Cloud-Native Developer"
+  ],
+  "outcomes": [
+    "Deploy and debug any workload",
+    "Secure clusters",
+    "Extend Kubernetes with operators"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 45,
+      "capstone": "Deploy a stateful app on a local cluster with probes, limits and persistent storage",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "Cluster basics",
+          "outcome": "Understand the moving parts",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Architecture: control plane and nodes",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "kubectl fluency",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Namespaces and labels",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Workloads",
+          "outcome": "Run apps the right way",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Deployments, ReplicaSets and Pods",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Jobs, CronJobs and DaemonSets",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "StatefulSets",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Configuration and storage",
+          "outcome": "Separate config from code",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "ConfigMaps and Secrets",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Volumes and PersistentVolumeClaims",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Probes and resource limits",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 55,
+      "capstone": "Expose services with Ingress, TLS and network policies, packaged as a Helm chart",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Networking",
+          "outcome": "Route traffic precisely",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Services and DNS",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Ingress and Gateway API",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Network policies",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Packaging",
+          "outcome": "Ship apps repeatably",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Helm charts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Kustomize overlays",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Chart testing",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Scaling",
+          "outcome": "Match capacity to demand",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Horizontal Pod Autoscaler",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Cluster autoscaling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Scheduling: affinity and taints",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 65,
+      "capstone": "Hardened, observable cluster passing a security benchmark",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Security",
+          "outcome": "Lock the cluster down",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "RBAC and service accounts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Pod security and admission control",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Supply chain: signing and scanning",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Observability",
+          "outcome": "See inside the cluster",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Cluster metrics and logging",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Service mesh basics",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Debugging production issues",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "GitOps",
+          "outcome": "Make Git the source of truth",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Argo CD",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Promotion between environments",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Secrets in GitOps",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 75,
+      "capstone": "Write a custom operator and run a multi-cluster upgrade drill",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Extending Kubernetes",
+          "outcome": "Teach Kubernetes new tricks",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Custom resources",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Writing an operator",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Admission webhooks",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Multi-cluster",
+          "outcome": "Operate fleets",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Fleet management",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Upgrades without downtime",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Disaster recovery for clusters",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Kubernetes for AI",
+          "outcome": "Run model workloads",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "GPU scheduling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Model serving on Kubernetes",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Batch and training jobs",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

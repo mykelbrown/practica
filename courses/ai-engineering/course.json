@@ -1,0 +1,365 @@
+{
+  "id": "ai-engineering",
+  "title": "AI Engineering: LLM Apps, RAG & Agents",
+  "track": "ai",
+  "summary": "Build production LLM applications: prompting, structured output, retrieval, tools, agents and evaluation.",
+  "why_now": "Every product team is adding AI features; engineers who can make them reliable, measurable and safe are scarce.",
+  "careers": [
+    "AI Engineer",
+    "LLM Application Developer",
+    "Applied AI Engineer",
+    "Agent Developer"
+  ],
+  "outcomes": [
+    "Ship an LLM feature with evaluations and guardrails",
+    "Build retrieval over private documents",
+    "Design tool-using agents that fail safely"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 50,
+      "capstone": "A support-ticket triager that returns validated JSON, retries safely and has a 50-case evaluation set",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "LLM fundamentals for engineers",
+          "outcome": "Know what models can and cannot do",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Structured output: making model replies machine-safe",
+              "status": "ready",
+              "minutes": 75,
+              "path": "beginner/m01-l01-structured-output",
+              "skills": [
+                "JSON extraction",
+                "schema validation",
+                "retries",
+                "testing with fake models"
+              ],
+              "checker": [
+                "verify.sh",
+                "checks.py"
+              ],
+              "checker_sha256": "7c6f221cd17db149ad7142ce68b1b648e1507804a9b6aa8712ac685babb42995",
+              "page_url": "https://claude.ai/artifact/Uo5EJ2JkYhAwD74hNzoA8o"
+            },
+            {
+              "id": "l02",
+              "title": "Tokens, context windows and cost",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Prompt design patterns and system prompts",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Calling models from code",
+          "outcome": "Integrate models like any other dependency",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "API clients, streaming and timeouts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Retries, rate limits and fallbacks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Testing LLM code with fakes and recordings",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Your first evaluations",
+          "outcome": "Measure quality instead of guessing",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Building a golden dataset",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Exact, fuzzy and rubric-based scoring",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "LLM-as-judge and its pitfalls",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 60,
+      "capstone": "Question answering over a document set with citations, measured retrieval quality and a cost budget",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Retrieval-augmented generation",
+          "outcome": "Ground answers in your data",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Embeddings and vector search",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Chunking strategies and metadata",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Hybrid search and re-ranking",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Tool use",
+          "outcome": "Let models act through safe interfaces",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Function calling and schemas",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Designing tools models use well",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Validating and sandboxing tool calls",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Building with MCP",
+          "outcome": "Connect models to systems in a standard way",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Model Context Protocol concepts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Writing an MCP server",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Permissions and trust boundaries",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 70,
+      "capstone": "A multi-step agent that completes a real workflow with human approval gates and full tracing",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Agents",
+          "outcome": "Plan, act and recover",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "The agent loop: observe, decide, act",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Memory, state and long tasks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Multi-agent orchestration",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Guardrails and safety",
+          "outcome": "Prevent the failures that make headlines",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Prompt injection and defences",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Output filtering and policy checks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Privacy, PII and data handling",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "LLMOps",
+          "outcome": "Run AI features in production",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Tracing and observability for LLM apps",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Prompt and model versioning",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Online evaluation and A/B tests",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 80,
+      "capstone": "Design and defend an AI platform proposal: architecture, eval strategy, cost model and risk register",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Advanced evaluation",
+          "outcome": "Make quality a release gate",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Eval-driven development",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Red-teaming and adversarial sets",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Regression gates in CI",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Performance and cost engineering",
+          "outcome": "Make it fast and affordable",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Caching, batching and prompt compression",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Model routing and distillation",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Latency budgets end to end",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "AI architecture leadership",
+          "outcome": "Choose the right approach for the problem",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Build versus buy versus fine-tune",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Governance and responsible AI",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Writing an AI design review",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

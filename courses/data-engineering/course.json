@@ -1,0 +1,351 @@
+{
+  "id": "data-engineering",
+  "title": "Data Engineering",
+  "track": "data",
+  "summary": "SQL, pipelines, warehouses, streaming and data quality: the plumbing every AI system depends on.",
+  "why_now": "AI is only as good as its data; reliable pipelines are now a strategic capability.",
+  "careers": [
+    "Data Engineer",
+    "Analytics Engineer",
+    "Data Platform Engineer"
+  ],
+  "outcomes": [
+    "Model data in a warehouse",
+    "Build tested batch and streaming pipelines",
+    "Guarantee data quality with contracts"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 50,
+      "capstone": "Load, clean and model a public dataset into a local warehouse with tests",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "SQL foundations",
+          "outcome": "Query any relational database",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "SELECT, filters and joins",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Aggregation and window functions",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Indexes and query plans",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Data with Python",
+          "outcome": "Wrangle files and APIs",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Reading CSV, JSON and Parquet",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Transforming data with pandas and Polars",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Calling APIs and handling pagination",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Data modelling",
+          "outcome": "Shape data for analysis",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Normalisation and star schemas",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Slowly changing dimensions",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Modelling with dbt",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 60,
+      "capstone": "Orchestrated daily pipeline with incremental loads and quality gates",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Orchestration",
+          "outcome": "Run pipelines on schedule and recover",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "DAGs with Airflow",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Idempotent and incremental loads",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Backfills and retries",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Data quality",
+          "outcome": "Catch bad data before users do",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Tests and expectations",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Data contracts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Observability and lineage",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Warehouses and lakehouses",
+          "outcome": "Store data for scale",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Columnar storage and partitioning",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "DuckDB and cloud warehouses",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Lakehouse table formats",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 70,
+      "capstone": "Real-time pipeline from event stream to dashboard and vector store",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Streaming",
+          "outcome": "Process events as they happen",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Kafka fundamentals",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Stream processing",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Exactly-once and ordering",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Data for AI",
+          "outcome": "Feed models and retrieval systems",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Preparing training data",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Document pipelines for RAG",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Vector databases in production",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Performance",
+          "outcome": "Make big jobs fast",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Distributed processing with Spark",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Optimising joins and shuffles",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Cost-aware design",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 80,
+      "capstone": "Design a governed data platform for an organisation",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Platform architecture",
+          "outcome": "Choose the right building blocks",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Data mesh and domain ownership",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Batch, streaming and lambda trade-offs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Platform roadmaps",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Governance and privacy",
+          "outcome": "Protect people and the business",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Access control and masking",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Privacy regulations",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Cataloguing and discovery",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Leadership",
+          "outcome": "Run data as a product",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Data SLAs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Incident response for data",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Stakeholder management",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

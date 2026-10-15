@@ -1,0 +1,354 @@
+<title>Structured Output Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column of numbered lesson stations, each pairing a short explanation with a live diagram. */
+:root {
+  --bg: #EEF2F5; --surface: #FFFFFF; --sunk: #E2E8EE; --line: #C9D3DC;
+  --ink: #17222D; --muted: #5A6B7A; --accent: #B86A00; --accent-soft: #F6E3C6;
+  --ok: #1D7480; --ok-soft: #D5EEF0; --bad: #B23A2E; --bad-soft: #F6DBD7;
+  --term-bg: #16202A; --term-ink: #D9E2EA; --term-dim: #8496A6;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E141B; --surface: #16202A; --sunk: #0B1117; --line: #2A3947;
+  --ink: #D9E2EA; --muted: #8FA0AF; --accent: #F2A93B; --accent-soft: #3A2C17;
+  --ok: #4FB7C3; --ok-soft: #133238; --bad: #E66A5E; --bad-soft: #3A1D1A;
+  --term-bg: #0A0F14; --term-ink: #D9E2EA; --term-dim: #7F909F; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0E141B; --surface: #16202A; --sunk: #0B1117; --line: #2A3947;
+  --ink: #D9E2EA; --muted: #8FA0AF; --accent: #F2A93B; --accent-soft: #3A2C17;
+  --ok: #4FB7C3; --ok-soft: #133238; --bad: #E66A5E; --bad-soft: #3A1D1A;
+  --term-bg: #0A0F14; --term-ink: #D9E2EA; --term-dim: #7F909F; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; }
+main { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.08; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+h2 { font-size: 1.9rem; }
+p { margin: 0; max-width: 65ch; }
+code, kbd { font-family: var(--mono); font-size: .92em; background: var(--sunk); padding: .08em .35em; border-radius: 4px; }
+.eyebrow { font: 600 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+section { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; min-width: 0; }
+.scroll { overflow-x: auto; }
+button { font: 600 .9rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 9px 14px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+header { display: flex; flex-direction: column; gap: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; font: 500 .82rem/1 var(--mono); color: var(--muted); }
+.meta span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; }
+video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: var(--term-bg); display: block; }
+.note { font-size: .88rem; color: var(--muted); }
+
+/* tree */
+.tree { display: grid; grid-template-columns: minmax(0, auto) auto minmax(0, 1fr); gap: 6px 16px; align-items: baseline; font-family: var(--mono); }
+.tree .path { white-space: pre; }
+.tree .dir { color: var(--ok); font-weight: 600; }
+.mode { font: 600 .8rem/1 var(--mono); padding: 4px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); justify-self: start; }
+.mode.none { background: transparent; color: var(--muted); }
+.tree .why { font-family: var(--body); font-size: .9rem; color: var(--muted); }
+
+/* permissions */
+.perm-grid { display: grid; grid-template-columns: 90px repeat(3, minmax(52px, 72px)) auto; gap: 8px; align-items: center; }
+.perm-grid .h { font: 600 .75rem/1 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; text-align: center; }
+.perm-grid .who { font-weight: 600; }
+.bit { position: relative; }
+.bit input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.bit span { display: block; text-align: center; padding: 10px 0; border-radius: 6px; border: 1px solid var(--line); font: 600 1rem/1 var(--mono); color: var(--muted); background: var(--sunk); transition: background .2s, color .2s; }
+.bit span small { display: block; font-size: .7rem; margin-top: 4px; }
+.bit input:checked + span { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.bit input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.digit { font: 700 1.6rem/1 var(--mono); color: var(--accent); text-align: center; min-width: 2ch; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 18px; }
+.readout div { background: var(--sunk); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.readout dt { font: 600 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+.readout dd { margin: 0; font: 600 1.15rem/1.3 var(--mono); overflow-wrap: anywhere; }
+.octal-in { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+.octal-in input { font: 600 1rem/1 var(--mono); width: 7ch; padding: 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+#permSentence { margin-top: 14px; }
+#permWarn { color: var(--bad); font-weight: 600; }
+
+/* diagrams */
+svg text { font-family: var(--mono); fill: var(--ink); }
+svg .lbl { font-size: 13px; fill: var(--muted); }
+svg .box { fill: var(--surface); stroke: var(--line); stroke-width: 2; transition: fill .25s, stroke .25s; }
+svg .edge { stroke: var(--line); stroke-width: 3; fill: none; transition: stroke .25s; }
+svg .on.box { stroke: var(--accent); fill: var(--accent-soft); }
+svg .on.edge { stroke: var(--accent); }
+svg .done-ok.box { stroke: var(--ok); fill: var(--ok-soft); }
+svg .done-bad.box { stroke: var(--bad); fill: var(--bad-soft); }
+.flowlink { stroke: var(--ok); stroke-width: 3; fill: none; stroke-dasharray: 8 8; animation: dash 1s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -16; } }
+
+/* terminal */
+.term { background: var(--term-bg); color: var(--term-ink); border-radius: 10px; padding: 16px 18px; font: 400 .92rem/1.6 var(--mono); min-height: 7.5em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.term .p { color: #4FB7C3; }
+.term .e { color: #E66A5E; }
+.term .d { color: var(--term-dim); }
+.term .cursor { display: inline-block; width: .6em; background: var(--term-ink); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.exit { font: 600 .9rem/1 var(--mono); padding: 6px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); }
+.exit.ok { background: var(--ok-soft); color: var(--ok); }
+.exit.bad { background: var(--bad-soft); color: var(--bad); }
+.sim-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+
+/* checklist */
+.check { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.check label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 4px; accent-color: var(--ok); flex: none; }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; }
+.progress { height: 8px; background: var(--sunk); border-radius: 4px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
+.cmd { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.swipe { display: none; font-size: .82rem; color: var(--muted); margin-top: 8px; }
+.cmd code { flex: 1; min-width: 0; padding: 10px 12px; overflow-wrap: anywhere; font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (max-width: 520px) {
+  .perm-grid { grid-template-columns: 64px repeat(3, minmax(40px, 1fr)) 36px; gap: 6px; }
+  .tree { grid-template-columns: minmax(0, auto) auto; }
+  .tree .why { grid-column: 1 / -1; margin: -2px 0 8px; }
+  .swipe { display: block; }
+}
+
+[hidden] { display: none !important; }
+.flowgrid { display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: 10px; align-items: stretch; min-width: 560px; }
+.node { border: 2px solid var(--line); border-radius: 8px; padding: 12px 10px; text-align: center; font: 600 .9rem/1.3 var(--mono); background: var(--surface); transition: border-color .25s, background .25s, color .25s; }
+.node small { display: block; font: 400 .75rem/1.3 var(--body); color: var(--muted); margin-top: 4px; }
+.node.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.node.good { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.node.badn { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); }
+.attempts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.attempt { font: 600 .82rem/1 var(--mono); padding: 7px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); }
+.attempt.good { background: var(--ok-soft); color: var(--ok); } .attempt.badn { background: var(--bad-soft); color: var(--bad); }
+textarea { width: 100%; min-height: 8.5em; font: 400 .9rem/1.5 var(--mono); padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); resize: vertical; }
+.steps { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; font-size: .92rem; align-items: baseline; }
+.steps .st { font: 600 .85rem/1 var(--mono); text-align: center; }
+.steps .ok { color: var(--ok); } .steps .no { color: var(--bad); } .steps .skip { color: var(--muted); }
+#inspectResult { margin-top: 12px; font: 600 .92rem/1.5 var(--mono); padding: 10px 12px; border-radius: 8px; overflow-wrap: anywhere; }
+#inspectResult.ok { background: var(--ok-soft); color: var(--ok); } #inspectResult.no { background: var(--bad-soft); color: var(--bad); }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">AI Engineering · Beginner · Lesson 1</div>
+    <h1>Structured output: making model replies machine-safe</h1>
+    <p>Language models return text. Your program needs data it can trust. Today you write the layer in between: extract the JSON, validate it, and retry with precise feedback, all tested offline against fake models.</p>
+    <div class="meta"><span>Beginner pathway</span><span>~75 minutes</span><span>28 automated checks</span><span>No API key needed</span></div>
+  </header>
+
+  <section aria-labelledby="s-video">
+    <div class="eyebrow">Watch first</div>
+    <h2 id="s-video">The lesson in 80 seconds</h2>
+    <video id="film" controls preload="metadata" playsinline poster="poster.jpg">
+      <source src="lesson.webm" type="video/webm">
+      <source src="lesson.mp4" type="video/mp4">
+    </video>
+    <p class="note">No narration: captions run along the bottom.</p>
+  </section>
+
+  <section aria-labelledby="s-loop">
+    <div class="eyebrow">Concept 1</div>
+    <h2 id="s-loop">The retry loop</h2>
+    <p>Every reply goes through extract, then validate. A <code>ValueError</code> sends the exact message back to the model. Other errors, such as a timeout, go straight to the caller. Pick how the fake model behaves and watch the loop.</p>
+    <div class="panel">
+      <div class="sim-head">
+        <div class="btns" id="loopScn">
+          <button data-scn="first">Valid first time</button>
+          <button data-scn="retry">Fixed on retry</button>
+          <button data-scn="never">Never valid</button>
+          <button data-scn="timeout">Model times out</button>
+        </div>
+        <span class="exit" id="loopBadge">result —</span>
+      </div>
+      <div class="scroll" style="margin-top:16px">
+        <div class="flowgrid">
+          <div class="node" id="f-prompt">build_prompt<small>ticket + feedback</small></div>
+          <div class="node" id="f-model">model(prompt)<small>fake, scripted</small></div>
+          <div class="node" id="f-extract">extract<small>fence or { … }</small></div>
+          <div class="node" id="f-validate">validate<small>keys, types, ranges</small></div>
+        </div>
+      </div>
+      <p class="swipe">Swipe the diagram sideways to see every step.</p>
+      <div class="attempts" id="attempts"></div>
+      <div class="term" id="loopTerm" aria-live="polite" style="margin-top:14px"><span class="d">Pick a scenario above.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-inspect">
+    <div class="eyebrow">Concept 2</div>
+    <h2 id="s-inspect">Reply inspector</h2>
+    <p>Paste or pick a model reply. The inspector applies the same rules the checker expects from your <code>parse_reply</code>, step by step.</p>
+    <div class="panel">
+      <div class="btns" id="samples" style="margin-bottom:12px">
+        <button data-s="clean">Clean JSON</button>
+        <button data-s="fenced">Prose + fence</button>
+        <button data-s="trap">Braces in prose</button>
+        <button data-s="bool">priority: true</button>
+        <button data-s="extra">Extra key</button>
+        <button data-s="trunc">Truncated</button>
+      </div>
+      <label for="reply" class="note">Model reply</label>
+      <textarea id="reply" spellcheck="false"></textarea>
+      <ol class="steps" id="steps"></ol>
+      <div id="inspectResult"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-do">
+    <div class="eyebrow">Your challenge</div>
+    <h2 id="s-do">Implement it, then verify</h2>
+    <p>Edit <code>workspace/extract.py</code> in this lesson folder. The full specification is in <code>LESSON.md</code>. Ticks are saved in this browser only.</p>
+    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+      <ul class="check" id="checklist"></ul>
+      <div class="cmd"><code id="verifyCmd">practica verify</code><button id="copyBtn">Copy</button></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const INTENTS = ["refund", "question", "complaint"], KEYS = ["intent", "priority", "summary"];
+
+  /* ---------- parse_reply mirror ---------- */
+  function inspect(text) {
+    const steps = []; let raw = null, data = null;
+    const fence = /```(?:json)?\s*\n?([\s\S]*?)```/.exec(text);
+    if (fence) { raw = fence[1]; steps.push(["ok", "Found a fenced block; using only its content"]); }
+    else {
+      const a = text.indexOf("{"), b = text.lastIndexOf("}");
+      if (a === -1 || b <= a) { steps.push(["no", "No fence and no { … } object"]); return { steps, error: "no JSON object found in reply" }; }
+      raw = text.slice(a, b + 1); steps.push(["ok", "No fence; using first { to last }"]);
+    }
+    try { data = JSON.parse(raw); steps.push(["ok", "Parsed as JSON"]); }
+    catch (e) { steps.push(["no", "JSON does not parse"]); return { steps, error: "invalid JSON: " + e.message }; }
+    const fail = (msg, label) => { steps.push(["no", label]); return { steps, error: msg }; };
+    if (!data || typeof data !== "object" || Array.isArray(data)) return fail("reply must be a JSON object", "Top level is not an object");
+    const keys = Object.keys(data);
+    const missing = KEYS.filter(k => !keys.includes(k)), extra = keys.filter(k => !KEYS.includes(k));
+    if (missing.length) return fail("missing key(s): " + missing.join(", "), "Missing key: " + missing.join(", "));
+    if (extra.length) return fail("unexpected key(s): " + extra.join(", "), "Unexpected key: " + extra.join(", "));
+    steps.push(["ok", "Exactly the keys intent, priority, summary"]);
+    if (!INTENTS.includes(data.intent)) return fail(`intent must be one of ${INTENTS.join(", ")}, got ${JSON.stringify(data.intent)}`, "intent is not an allowed value");
+    steps.push(["ok", `intent is "${data.intent}"`]);
+    const p = data.priority;
+    if (typeof p !== "number" || !Number.isInteger(p) || p < 1 || p > 5) return fail(`priority must be an integer 1-5, got ${JSON.stringify(p)}`, "priority is not an integer from 1 to 5");
+    steps.push(["ok", `priority is ${p}`]);
+    const s = typeof data.summary === "string" ? data.summary.trim() : "";
+    if (!s || s.length > 120) return fail("summary must be a non-empty string of at most 120 characters", "summary is empty, too long or not text");
+    steps.push(["ok", `summary is ${s.length} characters after trimming`]);
+    return { steps, value: { intent: data.intent, priority: p, summary: s } };
+  }
+  const GOOD = '{"intent": "refund", "priority": 4, "summary": "Charged twice for March"}';
+  const SAMPLES = {
+    clean: GOOD,
+    fenced: "Sure! Here is the classification:\n```json\n" + GOOD + "\n```\nLet me know if you need anything else.",
+    trap: "Format: {intent, priority, summary}\n```json\n" + GOOD + "\n```",
+    bool: GOOD.replace(": 4,", ": true,"),
+    extra: GOOD.slice(0, -1) + ', "confidence": 0.92}',
+    trunc: '{"intent": "refund", "priority": 4, "summ'
+  };
+  function renderInspect() {
+    const r = inspect($("reply").value);
+    $("steps").innerHTML = r.steps.map(([k, t]) => `<li><span class="st ${k}">${k === "ok" ? "✓" : "✗"}</span><span>${esc(t)}</span></li>`).join("");
+    const out = $("inspectResult");
+    if (r.value) { out.className = "ok"; out.textContent = "Returns " + JSON.stringify(r.value); }
+    else { out.className = "no"; out.textContent = "ValueError: " + r.error; }
+    document.querySelectorAll("#samples button").forEach(b => b.setAttribute("aria-pressed", String(SAMPLES[b.dataset.s] === $("reply").value)));
+  }
+  $("reply").addEventListener("input", renderInspect);
+  $("samples").addEventListener("click", e => { const b = e.target.closest("[data-s]"); if (!b) return; $("reply").value = SAMPLES[b.dataset.s]; renderInspect(); });
+  $("reply").value = SAMPLES.fenced; renderInspect();
+
+  /* ---------- retry loop simulator ---------- */
+  const BAD9 = GOOD.replace(": 4,", ": 9,");
+  const SCN = {
+    first: { replies: [GOOD] },
+    retry: { replies: [BAD9, GOOD] },
+    never: { replies: ["I am not sure.", "{oops", BAD9] },
+    timeout: { replies: [new Error("TimeoutError: model timed out")] }
+  };
+  const nodes = ["f-prompt", "f-model", "f-extract", "f-validate"];
+  let run = 0;
+  const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  async function simulate(name) {
+    const me = ++run, s = SCN[name], max = 3;
+    document.querySelectorAll("#loopScn button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.scn === name)));
+    const badge = $("loopBadge"), term = $("loopTerm"), att = $("attempts");
+    badge.className = "exit"; badge.textContent = "result …"; att.innerHTML = ""; term.innerHTML = "";
+    const lines = []; const log = (cls, t) => { lines.push(`<span class="${cls}">${esc(t)}</span>`); term.innerHTML = lines.join("\n"); };
+    const clear = () => nodes.forEach(n => $(n).className = "node");
+    let error = null;
+    for (let i = 0; i < max; i++) {
+      if (me !== run) return;
+      clear();
+      const reply = s.replies[i] !== undefined ? s.replies[i] : "still not JSON";
+      for (const n of nodes.slice(0, 2)) { $(n).classList.add("on"); await wait(320); if (me !== run) return; }
+      log("p", `attempt ${i + 1}: model(build_prompt(ticket${error ? ", error=…" : ""}))`);
+      if (reply instanceof Error) {
+        $("f-model").className = "node badn"; att.insertAdjacentHTML("beforeend", `<span class="attempt badn">#${i + 1} timeout</span>`);
+        log("e", reply.message + "  → raised to caller, no retry");
+        badge.textContent = "TimeoutError"; badge.classList.add("bad"); $("loopTerm").dataset.done = name; return;
+      }
+      for (const n of nodes.slice(2)) { $(n).classList.add("on"); await wait(320); if (me !== run) return; }
+      const r = inspect(reply);
+      if (r.value) {
+        nodes.forEach(n => $(n).className = "node good");
+        att.insertAdjacentHTML("beforeend", `<span class="attempt good">#${i + 1} valid</span>`);
+        log("", "→ " + JSON.stringify(r.value));
+        badge.textContent = `returned after ${i + 1} call${i ? "s" : ""}`; badge.classList.add("ok"); $("loopTerm").dataset.done = name; return;
+      }
+      error = r.error;
+      $("f-validate").className = "node badn";
+      att.insertAdjacentHTML("beforeend", `<span class="attempt badn">#${i + 1} invalid</span>`);
+      log("e", "ValueError: " + error);
+      if (i < max - 1) log("d", "  feedback: previous reply was invalid: " + error);
+      await wait(500);
+    }
+    if (me !== run) return;
+    log("e", `RuntimeError: model gave no valid reply after ${max} attempts`);
+    badge.textContent = "RuntimeError"; badge.classList.add("bad"); $("loopTerm").dataset.done = name;
+  }
+  $("loopScn").addEventListener("click", e => { const b = e.target.closest("[data-scn]"); if (b) simulate(b.dataset.scn); });
+
+  /* ---------- checklist ---------- */
+  const items = [
+    "parse_reply uses the first fenced block when one exists",
+    "parse_reply falls back to first { … last }",
+    "Invalid JSON and missing objects raise ValueError",
+    "Exactly three keys, with missing or extra keys named in the error",
+    "intent, priority (int 1-5, not bool) and summary (trimmed, ≤120) validated",
+    "build_prompt includes the ticket, intents and feedback on retry",
+    "classify retries only on ValueError, at most max_attempts times",
+    "Run practica verify until all 28 checks pass"
+  ];
+  const KEY = "ai-b-m01-l01-checklist";
+  let saved = []; try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { saved = []; }
+  const list = $("checklist");
+  items.forEach((t, i) => list.insertAdjacentHTML("beforeend", `<li><label><input type="checkbox" id="c-${i}" ${saved.includes(i) ? "checked" : ""}><span>${esc(t)}</span></label></li>`));
+  function updateBar() {
+    const done = items.map((_, i) => $("c-" + i).checked ? i : -1).filter(i => i >= 0);
+    $("bar").style.width = (done.length / items.length * 100) + "%";
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  }
+  list.addEventListener("change", updateBar); updateBar();
+  $("copyBtn").addEventListener("click", () => {
+    const btn = $("copyBtn"), txt = $("verifyCmd").textContent;
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents($("verifyCmd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press Ctrl+C"; };
+    try { navigator.clipboard.writeText(txt).then(() => { btn.textContent = "Copied"; setTimeout(() => btn.textContent = "Copy", 1600); }, fallback); } catch (e) { fallback(); }
+  });
+})();
+</script>

@@ -1,0 +1,367 @@
+{
+  "id": "devops",
+  "title": "DevOps & Platform Engineering",
+  "track": "infra",
+  "summary": "Linux to Kubernetes, CI/CD, infrastructure as code and SRE, all practised locally.",
+  "why_now": "AI coding tools write more code than ever; teams that can test, ship and operate it safely set the pace.",
+  "careers": [
+    "DevOps Engineer",
+    "Platform Engineer",
+    "Site Reliability Engineer",
+    "Cloud Engineer"
+  ],
+  "outcomes": [
+    "Automate a full build-test-deploy pipeline",
+    "Provision infrastructure as code",
+    "Operate services on Kubernetes with SLOs"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 60,
+      "capstone": "Containerise a three-service app with health checks, logs and a one-command start",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "Linux, terminal and Git",
+          "outcome": "Work confidently on any Linux box and keep clean history",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Files, permissions and exit codes",
+              "status": "ready",
+              "minutes": 60,
+              "path": "module-01/day-01",
+              "legacy_id": "m1d1",
+              "page_url": "https://claude.ai/artifact/PKNsaDxmRFk48Qq88CgjX1",
+              "skills": [
+                "filesystem",
+                "chmod",
+                "symlinks",
+                "exit codes",
+                "stderr",
+                "bash strict mode"
+              ],
+              "checker": [
+                "verify.sh"
+              ],
+              "checker_sha256": "a7660485078c358a383e73bbcb6d2cd624fff556f418e7d5e44c858d23c226b6"
+            },
+            {
+              "id": "l02",
+              "title": "Processes, signals, pipes and redirection",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Git: commits, branches, diffs and repository hygiene",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Automation with Bash and Python",
+          "outcome": "Replace manual steps with tested scripts",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Robust Bash scripts: arguments, traps and logging",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Python automation with virtual environments",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Config formats: JSON, YAML, TOML and secrets handling",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Containers with Docker",
+          "outcome": "Package any app into a small, secure image",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Images, containers, layers and registries",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Writing Dockerfiles: multi-stage, non-root and small",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Docker Compose for multi-service apps",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 70,
+      "capstone": "Pipeline that tests, scans, builds and deploys an app to local infrastructure provisioned by Terraform",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "CI/CD engineering",
+          "outcome": "Make every change tested and releasable",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "GitHub Actions: workflows, jobs and runners",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Caching, artefacts and matrix builds",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Releases, environments and rollback",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Infrastructure as code",
+          "outcome": "Describe infrastructure you can review and reproduce",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Terraform: providers, resources and state",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Variables, outputs and reusable modules",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Plans, drift and lifecycle with LocalStack",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Configuration management",
+          "outcome": "Configure fleets idempotently",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Ansible inventories and playbooks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Idempotency and handlers",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Roles and reusable automation",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 80,
+      "capstone": "Run a service on Kubernetes with autoscaling, dashboards, alerts and a written SLO",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Kubernetes operations",
+          "outcome": "Deploy and debug workloads on a local cluster",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Pods, Deployments and Services on kind",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "ConfigMaps, Secrets, probes and resource limits",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Helm charts and rollout strategies",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Cloud architecture",
+          "outcome": "Design for failure on cloud primitives",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Networking, IAM and least privilege",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Storage, queues and managed services with emulators",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Availability, scaling and cost",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Observability and SRE",
+          "outcome": "Measure what users feel and act on it",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Metrics with Prometheus and dashboards in Grafana",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Logs, traces and OpenTelemetry",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "SLOs, error budgets and alerting",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 90,
+      "capstone": "Build an internal developer platform: a golden-path template, GitOps delivery and an incident game day",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Platform engineering",
+          "outcome": "Give developers paved roads",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Golden-path templates and self-service",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Policy as code with OPA",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Developer portals and scorecards",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Progressive delivery and GitOps",
+          "outcome": "Ship continuously with low risk",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "GitOps with Argo CD",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Canary and blue-green releases",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Feature flags and automated rollback",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Reliability leadership",
+          "outcome": "Lead incidents and improve systems",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Incident command and blameless postmortems",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Chaos engineering game days",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "AIOps: using LLMs for triage safely",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

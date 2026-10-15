@@ -1,0 +1,352 @@
+{
+  "id": "security",
+  "title": "Cybersecurity & DevSecOps",
+  "track": "security",
+  "summary": "Secure code, pipelines, cloud and AI systems; detect and respond to attacks, all in local labs.",
+  "why_now": "AI increases both attack speed and attack surface; security skills now sit inside every engineering team.",
+  "careers": [
+    "Security Engineer",
+    "DevSecOps Engineer",
+    "Application Security Engineer",
+    "AI Security Specialist"
+  ],
+  "outcomes": [
+    "Find and fix common vulnerabilities",
+    "Secure CI/CD and supply chain",
+    "Detect and respond to incidents"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 50,
+      "capstone": "Harden a Linux host and a small web app against the OWASP Top 10",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "Security fundamentals",
+          "outcome": "Think like an attacker and defender",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Threat modelling basics",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Linux hardening",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Network fundamentals for security",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Web application security",
+          "outcome": "Stop the most common bugs",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Injection and input validation",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Authentication and sessions",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Access control flaws",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Cryptography in practice",
+          "outcome": "Use crypto correctly",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Hashing, encryption and signatures",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "TLS and certificates",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Secrets and key handling",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 60,
+      "capstone": "Secure pipeline with SAST, dependency scanning, signed images and policy gates",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "DevSecOps",
+          "outcome": "Shift security left",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Static analysis in CI",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Dependency and container scanning",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Secrets detection",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Supply chain security",
+          "outcome": "Trust what you ship",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "SBOMs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Signing with Sigstore",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "SLSA levels",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Cloud security",
+          "outcome": "Secure cloud accounts",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "IAM attack paths",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Misconfiguration scanning",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Cloud logging and detection",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 70,
+      "capstone": "Detection lab: generate attacks, write detections and run an incident response",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Detection engineering",
+          "outcome": "Spot attackers",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Logs and SIEM basics",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Writing detection rules",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Threat hunting",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Incident response",
+          "outcome": "Contain and recover",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "IR lifecycle",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Forensics basics",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Post-incident reporting",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "AI security",
+          "outcome": "Defend AI systems",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Prompt injection and jailbreaks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Model and data poisoning",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Securing agents and tools",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 80,
+      "capstone": "Run a red-team exercise and present a security programme roadmap",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Offensive security",
+          "outcome": "Test defences legally",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Penetration testing methodology",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Exploitation in labs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Reporting findings",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Security architecture",
+          "outcome": "Design secure systems",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Zero trust",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Secure design reviews",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Security for platforms",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Leadership",
+          "outcome": "Run a security programme",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Risk management",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Compliance frameworks",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Building a security culture",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

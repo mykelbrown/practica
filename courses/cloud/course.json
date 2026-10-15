@@ -1,0 +1,351 @@
+{
+  "id": "cloud",
+  "title": "Cloud Architecture",
+  "track": "infra",
+  "summary": "Design secure, scalable systems on AWS concepts, practised free with local emulators.",
+  "why_now": "AI workloads are pushing cloud spend and complexity up; architects who balance cost, scale and safety are in demand.",
+  "careers": [
+    "Cloud Engineer",
+    "Solutions Architect",
+    "Cloud Security Engineer"
+  ],
+  "outcomes": [
+    "Design multi-tier architectures",
+    "Secure accounts with IAM",
+    "Control cost and availability"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 45,
+      "capstone": "Deploy a static site and API on emulated cloud services with least-privilege IAM",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "Cloud fundamentals",
+          "outcome": "Think in regions, accounts and services",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Regions, zones and the shared responsibility model",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Compute options compared",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Storage options compared",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Identity and access",
+          "outcome": "Grant exactly what is needed",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "IAM users, roles and policies",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Least privilege in practice",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Secrets management",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Networking",
+          "outcome": "Connect things safely",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "VPCs, subnets and routing",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Security groups and firewalls",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "DNS and load balancers",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 55,
+      "capstone": "Highly available web app with autoscaling, queues and infrastructure as code",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Scalable architectures",
+          "outcome": "Grow without rewrites",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Stateless services and autoscaling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Queues and event-driven design",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Caching layers",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Serverless",
+          "outcome": "Run code without servers",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Functions and triggers",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "API gateways",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Serverless trade-offs",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Databases in the cloud",
+          "outcome": "Pick and operate the right store",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Managed relational databases",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "NoSQL patterns",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Backups and recovery",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 65,
+      "capstone": "Multi-region design with disaster recovery tested by a failover drill",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Resilience",
+          "outcome": "Survive failures",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Multi-AZ and multi-region",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Disaster recovery strategies",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Testing failover",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Security architecture",
+          "outcome": "Defend in depth",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Encryption and key management",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Audit logging and detection",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Landing zones and guardrails",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Cloud for AI workloads",
+          "outcome": "Run GPUs and model APIs well",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "GPU capacity and scheduling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Managed AI services",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Data residency for AI",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 75,
+      "capstone": "Architecture review and cost optimisation of a realistic workload",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "FinOps",
+          "outcome": "Spend deliberately",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Cost allocation and tagging",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Rightsizing and commitments",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Unit economics",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Multi-cloud and hybrid",
+          "outcome": "Avoid traps",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Portability trade-offs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Hybrid connectivity",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Vendor strategy",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Architecture leadership",
+          "outcome": "Make and record decisions",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Well-architected reviews",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Architecture decision records",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Migration planning",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

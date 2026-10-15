@@ -1,0 +1,351 @@
+{
+  "id": "mlops",
+  "title": "MLOps & ML Systems",
+  "track": "ai",
+  "summary": "Train, package, deploy and monitor machine-learning models with reproducible pipelines.",
+  "why_now": "Models only create value once they are deployed, monitored and retrained reliably.",
+  "careers": [
+    "MLOps Engineer",
+    "ML Engineer",
+    "ML Platform Engineer"
+  ],
+  "outcomes": [
+    "Reproduce any training run",
+    "Serve models behind tested APIs",
+    "Detect drift and retrain automatically"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 50,
+      "capstone": "Train, track and serve a tabular model behind a tested HTTP API",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "ML foundations for engineers",
+          "outcome": "Understand the training loop",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Datasets, features and splits",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Training and evaluating a scikit-learn model",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Metrics that match the business problem",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Reproducibility",
+          "outcome": "Make results repeatable",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Environments and pinned dependencies",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Experiment tracking with MLflow",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Data and model versioning with DVC",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Packaging and serving",
+          "outcome": "Turn a model into a service",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Model serialisation formats",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Serving with FastAPI",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Containerising inference",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 60,
+      "capstone": "Automated train-validate-register pipeline triggered from CI",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Pipelines",
+          "outcome": "Automate the path from data to model",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Pipeline orchestration concepts",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Building pipelines with Prefect",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Testing data and models",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Feature management",
+          "outcome": "Serve the same features in training and production",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Feature engineering at scale",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Feature stores",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Training-serving skew",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Model registry and CI/CD for ML",
+          "outcome": "Promote models safely",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Model registry and stages",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Continuous training",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Approval gates",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 70,
+      "capstone": "Monitored model in production with drift alerts and automated rollback",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Production monitoring",
+          "outcome": "Know when a model goes wrong",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Data and concept drift",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Performance monitoring with delayed labels",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Alerting and dashboards",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Scaling inference",
+          "outcome": "Serve fast and cheaply",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Batch versus real-time inference",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "GPU serving and batching",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Autoscaling on Kubernetes",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Deep learning operations",
+          "outcome": "Handle large models",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Training at scale",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Fine-tuning open models",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Quantisation and optimisation",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 80,
+      "capstone": "Design an ML platform for multiple teams with governance and cost controls",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "ML platform design",
+          "outcome": "Serve many teams at once",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Platform components and build versus buy",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Multi-tenant pipelines",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Self-service for data scientists",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Governance",
+          "outcome": "Stay compliant and fair",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Model cards and lineage",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Fairness and bias testing",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Regulation and audits",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Leadership",
+          "outcome": "Run ML as an engineering discipline",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "ML incident response",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Cost management",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "ML system design reviews",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

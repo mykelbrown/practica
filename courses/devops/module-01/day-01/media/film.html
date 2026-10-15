@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>M1D1 Film</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Film stage: fixed 1280x720, single dark "schematic" look for video. */
+:root {
+  --bg: #0E141B; --panel: #16202A; --line: #2A3947; --ink: #D9E2EA; --muted: #8496A6;
+  --amber: #F2A93B; --teal: #4FB7C3; --red: #E66A5E; --dim: #3A4A59;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); }
+.stage { position: relative; width: 1280px; height: 720px; overflow: hidden; background:
+  radial-gradient(circle at 1px 1px, #1C2733 1px, transparent 0) 0 0 / 32px 32px, var(--bg);
+  color: var(--ink); font-family: var(--body); }
+.scene { position: absolute; inset: 0 0 96px 0; padding: 56px 88px; opacity: 0; transition: opacity .5s; display: flex; flex-direction: column; gap: 28px; }
+.scene.on { opacity: 1; }
+.eyebrow { font: 600 15px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+h1 { font: 700 76px/1.02 var(--display); margin: 0; letter-spacing: -.01em; }
+h2 { font: 700 46px/1.1 var(--display); margin: 0; }
+.cap { position: absolute; left: 0; right: 0; bottom: 0; height: 96px; display: flex; align-items: center; padding: 0 88px;
+  background: #0A0F14; border-top: 1px solid var(--line); font: 500 25px/1.3 var(--body); color: var(--ink); }
+.cap b { color: var(--amber); font-weight: 500; }
+[data-at] { opacity: 0; transform: translateY(10px); transition: opacity .45s, transform .45s; }
+[data-at].on { opacity: 1; transform: none; }
+.term { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 28px; font: 400 24px/1.6 var(--mono); white-space: pre; }
+.term .p { color: var(--teal); }
+.term .err { color: var(--red); }
+.row { display: flex; gap: 28px; align-items: center; }
+/* permission scene */
+.perm { display: flex; gap: 6px; font: 600 72px/1 var(--mono); }
+.perm span { width: 58px; text-align: center; color: var(--dim); transition: color .3s, transform .3s; }
+.perm span.lit { color: var(--ink); }
+.groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grp { border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; background: var(--panel); }
+.grp h3 { margin: 0 0 12px; font: 600 16px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.bits { display: flex; gap: 10px; font: 600 30px/1 var(--mono); }
+.bit { flex: 1; text-align: center; padding: 10px 0; border-radius: 6px; background: #0E141B; color: var(--dim); transition: background .3s, color .3s; }
+.bit small { display: block; font-size: 15px; margin-top: 6px; }
+.bit.lit { background: rgba(242,169,59,.16); color: var(--amber); }
+.sum { margin-top: 14px; font: 600 26px/1 var(--mono); color: var(--muted); }
+.sum b { color: var(--amber); font-size: 40px; }
+/* symlink */
+.node { border: 2px solid var(--line); background: var(--panel); border-radius: 10px; padding: 22px 28px; font: 600 28px/1 var(--mono); }
+.node.link { border-color: var(--teal); color: var(--teal); }
+svg .draw { stroke-dasharray: 520; stroke-dashoffset: 520; transition: stroke-dashoffset 1.4s ease; }
+svg .draw.on { stroke-dashoffset: 0; opacity: 1; transform: none; }
+/* pipeline */
+.pipe { display: flex; align-items: center; gap: 14px; }
+.stagebox { min-width: 190px; text-align: center; padding: 18px 10px; border-radius: 10px; border: 2px solid var(--line); font: 600 24px/1 var(--mono); color: var(--muted); background: var(--panel); transition: all .35s; }
+.stagebox.ok { border-color: var(--teal); color: var(--teal); background: rgba(79,183,195,.12); }
+.stagebox.fail { border-color: var(--red); color: var(--red); background: rgba(230,106,94,.12); }
+.stagebox.skip { border-style: dashed; color: var(--dim); }
+.arrow { color: var(--dim); font: 600 28px/1 var(--mono); }
+.label { font: 500 22px/1.3 var(--body); color: var(--muted); min-width: 260px; }
+.label code { font-family: var(--mono); color: var(--ink); }
+/* streams */
+.lanes { display: grid; grid-template-columns: 240px 1fr 380px; gap: 0 24px; align-items: center; row-gap: 40px; }
+.proc { grid-row: span 2; height: 100%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--amber); border-radius: 12px; font: 600 26px/1.3 var(--mono); color: var(--amber); text-align: center; }
+.lane { position: relative; height: 6px; border-radius: 3px; background: var(--line); }
+.lane i { position: absolute; top: -9px; left: 0; width: 24px; height: 24px; border-radius: 50%; opacity: 0; }
+.lane.out i { background: var(--teal); } .lane.err i { background: var(--red); }
+.lane i.on { opacity: 1; animation: flow 1.6s linear infinite; }
+@keyframes flow { from { left: 0; } to { left: calc(100% - 24px); } }
+.lane span { position: absolute; top: -40px; left: 0; font: 600 18px/1 var(--mono); color: var(--muted); }
+.dest { font: 400 22px/1.4 var(--mono); padding: 16px 20px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.dest.out { color: var(--teal); } .dest.err { color: var(--red); }
+/* flags */
+.flags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.flag { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 14px; }
+.flag code { font: 600 40px/1 var(--mono); color: var(--amber); }
+.flag p { margin: 0; font: 400 23px/1.4 var(--body); }
+.flag pre { margin: 0; font: 400 18px/1.5 var(--mono); color: var(--muted); white-space: pre-wrap; }
+.tree { font: 400 30px/1.55 var(--mono); white-space: pre; }
+.tree .d { color: var(--teal); } .tree .m { color: var(--amber); font-size: 22px; }
+.big-check { font: 600 30px/1.6 var(--mono); }
+.big-check .ok { color: var(--teal); }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <section class="scene" data-dur="5000" data-cap="Module 1 · Day 1 of your DevOps curriculum">
+    <div class="eyebrow" data-at="200">Module 1 · Linux &amp; Terminal Fundamentals</div>
+    <h1 data-at="600">Files, permissions<br>and exit codes</h1>
+    <p data-at="1400" style="font:400 28px/1.4 var(--body);color:var(--muted);margin:0;max-width:900px">How a server decides who may touch a file, and how every pipeline decides whether a step worked.</p>
+  </section>
+
+  <section class="scene" data-dur="10000" data-cap="<b>mkdir -p</b> with braces creates the whole layout in one command, and is safe to re-run">
+    <div class="eyebrow">1 · Build the layout</div>
+    <div class="row" style="align-items:flex-start;gap:56px">
+      <div class="term" style="flex:1"><span class="type" data-at="300" data-text="$ mkdir -p app/{bin,config,logs}"></span>
+<span class="type" data-at="5200" data-text="$ touch app/logs/app.log"></span></div>
+      <div class="tree"><span class="d" data-at="2400">app/</span>
+<span data-at="2900">├── <span class="d">bin/</span></span>
+<span data-at="3300">├── <span class="d">config/</span></span>
+<span data-at="3700">└── <span class="d">logs/</span></span>
+<span data-at="6600">    └── app.log <span class="m">(empty)</span></span></div>
+    </div>
+  </section>
+
+  <section class="scene" id="perm750" data-dur="11000" data-cap="Each digit is a sum: <b>r = 4, w = 2, x = 1</b>. Owner 7, group 5, others 0 gives <b>750</b>"></section>
+  <section class="scene" id="perm600" data-dur="8000" data-cap="Secrets such as <b>app.env</b> get <b>600</b>: only the owner can read or write them"></section>
+
+  <section class="scene" data-dur="8000" data-cap="A <b>symlink</b> is a signpost. Deploy tools swap where it points to switch releases instantly">
+    <div class="eyebrow">3 · Symbolic links</div>
+    <div class="term" style="align-self:flex-start"><span class="type" data-at="200" data-text="$ cd app && ln -s config/app.env current-config"></span></div>
+    <div class="row" style="gap:0">
+      <div class="node link" data-at="1800">current-config</div>
+      <svg width="300" height="60" viewBox="0 0 300 60" aria-hidden="true"><path class="draw" data-at="2400" d="M10 30 H270" stroke="#4FB7C3" stroke-width="4" fill="none"/><path data-at="3600" d="M262 16 L288 30 L262 44 Z" fill="#4FB7C3"/></svg>
+      <div class="node" data-at="3600">config/app.env</div>
+    </div>
+    <div class="term" data-at="5000" style="align-self:flex-start;font-size:22px">lrwxrwxrwx  current-config <span class="p">-&gt; config/app.env</span></div>
+  </section>
+
+  <section class="scene" data-dur="10000" data-cap="Exit code <b>0</b> means success. <b>Anything else</b> stops the pipeline, and that is how CI catches failures">
+    <div class="eyebrow">4 · Exit codes drive automation</div>
+    <div class="pipe" data-at="300"><div class="label"><code>healthcheck.sh</code><br>exits <code style="color:var(--teal)">0</code></div>
+      <div class="stagebox" data-lit="900" data-cls="ok">check</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="1700" data-cls="ok">build</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="2500" data-cls="ok">deploy</div></div>
+    <div class="pipe" data-at="4200"><div class="label"><code>healthcheck.sh</code><br>exits <code style="color:var(--red)">2</code></div>
+      <div class="stagebox" data-lit="4900" data-cls="fail">check</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="5700" data-cls="skip">build</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="6100" data-cls="skip">deploy</div></div>
+    <div class="term" data-at="7200" style="align-self:flex-start;font-size:22px">$ ./bin/healthcheck.sh; echo "exit=$?"
+<span class="err">ERROR: missing config/app.env</span>
+exit=2</div>
+  </section>
+
+  <section class="scene" data-dur="11000" data-cap="Normal output goes to <b>stdout</b> (1), problems to <b>stderr</b> (2). Keep them apart so output stays parsable">
+    <div class="eyebrow">5 · Two output streams</div>
+    <div class="lanes">
+      <div class="proc" data-at="200">healthcheck<br>.sh</div>
+      <div class="lane out" data-at="900"><span>stdout · fd 1</span><i data-at="1400"></i></div>
+      <div class="dest out" data-at="1900">OK env=development port=8080</div>
+      <div class="lane err" data-at="3600"><span>stderr · fd 2 · echo "…" &gt;&amp;2</span><i data-at="4100"></i></div>
+      <div class="dest err" data-at="4600">ERROR: missing config</div>
+    </div>
+    <div class="term" data-at="6800" style="align-self:flex-start;font-size:22px">$ ./bin/healthcheck.sh <span class="p">&gt; out.txt</span>   <span style="color:var(--muted)"># stdout to file</span>
+$ ./bin/healthcheck.sh <span class="p">2&gt; err.txt</span>  <span style="color:var(--muted)"># stderr to file</span></div>
+  </section>
+
+  <section class="scene" data-dur="10000" data-cap="Start every script with <b>set -euo pipefail</b> so it stops at the first problem">
+    <div class="eyebrow">6 · Fail fast</div>
+    <h2 data-at="200" style="font-family:var(--mono);font-size:40px">#!/usr/bin/env bash<br><span style="color:var(--amber)">set -euo pipefail</span></h2>
+    <div class="flags">
+      <div class="flag" data-at="1800"><code>-e</code><p>Exit as soon as any command fails.</p><pre>cp missing.txt /tmp
+# script stops here</pre></div>
+      <div class="flag" data-at="3800"><code>-u</code><p>Using an unset variable is an error.</p><pre>rm -rf "$DIRR/"
+# typo caught, nothing deleted</pre></div>
+      <div class="flag" data-at="5800"><code>-o pipefail</code><p>A pipe fails if any part fails.</p><pre>false | sort
+# exit 1, not 0</pre></div>
+    </div>
+  </section>
+
+  <section class="scene" data-dur="9000" data-cap="Build it yourself in <b>workspace/</b>, then run the checker until every line passes">
+    <div class="eyebrow">Your turn</div>
+    <h2 data-at="200">Build <span style="font-family:var(--mono);color:var(--amber)">app/</span> and prove it works</h2>
+    <div class="term"><span class="type" data-at="900" data-text="$ ~/devops-lab/module-01/day-01/verify.sh"></span></div>
+    <div class="big-check"><div data-at="3200"><span class="ok">PASS</span> permissions 750 / 600 / 750</div><div data-at="3800"><span class="ok">PASS</span> current-config -&gt; config/app.env</div><div data-at="4400"><span class="ok">PASS</span> missing config: ERROR on stderr, exit 2</div><div data-at="5200" style="color:var(--amber)">Result: 15 passed, 0 failed</div></div>
+  </section>
+
+  <div class="cap" id="cap"></div>
+</div>
+
+<script>
+function permScene(el, opts) {
+  const s = opts.str, labels = ["owner", "group", "others"], names = ["r","w","x"], vals = [4,2,1];
+  let html = `<div class="eyebrow">2 · Permissions · ${opts.file}</div>
+    <div class="row"><div class="term" style="font-size:24px"><span class="type" data-at="200" data-text="$ chmod ${opts.mode} ${opts.file}"></span></div></div>
+    <div class="perm" data-at="1200"><span class="lit">${s[0]}</span>`;
+  for (let i = 1; i < 10; i++) {
+    const t = opts.t0 + Math.floor((i - 1) / 3) * opts.step + ((i - 1) % 3) * 350;
+    html += `<span ${s[i] !== "-" ? `data-lit="${t}" data-cls="lit"` : ""}>${s[i]}</span>`;
+  }
+  html += `</div><div class="groups">`;
+  for (let g = 0; g < 3; g++) {
+    let sum = [], total = 0;
+    html += `<div class="grp" data-at="1600"><h3>${labels[g]}</h3><div class="bits">`;
+    for (let b = 0; b < 3; b++) {
+      const on = s[1 + g * 3 + b] !== "-", t = opts.t0 + g * opts.step + b * 350;
+      if (on) { sum.push(vals[b]); total += vals[b]; }
+      html += `<div class="bit" ${on ? `data-lit="${t}" data-cls="lit"` : ""}>${names[b]}<small>${vals[b]}</small></div>`;
+    }
+    html += `</div><div class="sum" data-at="${opts.t0 + g * opts.step + 1100}">${sum.length ? sum.join(" + ") : "nothing"} = <b>${total}</b></div></div>`;
+  }
+  el.innerHTML = html + `</div>`;
+}
+permScene(document.getElementById("perm750"), { str: "-rwxr-x---", mode: "750", file: "bin/healthcheck.sh", t0: 2400, step: 2300 });
+permScene(document.getElementById("perm600"), { str: "-rw-------", mode: "600", file: "config/app.env", t0: 2200, step: 1500 });
+
+const scenes = [...document.querySelectorAll(".scene")];
+const cap = document.getElementById("cap");
+const timers = [];
+const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+function typeOut(el) {
+  const text = el.dataset.text; let i = 0;
+  const tick = () => { el.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 38); };
+  tick();
+}
+
+function play() {
+  let t = 0;
+  scenes.forEach((sc, idx) => {
+    const start = t;
+    later(start, () => {
+      scenes.forEach(s => s.classList.remove("on"));
+      sc.classList.add("on");
+      cap.innerHTML = "<span>" + sc.dataset.cap + "</span>";
+    });
+    sc.querySelectorAll("[data-at]").forEach(el => later(start + +el.dataset.at, () => {
+      el.classList.add("on");
+      if (el.classList.contains("type")) typeOut(el);
+    }));
+    sc.querySelectorAll("[data-lit]").forEach(el => later(start + +el.dataset.lit, () => el.classList.add(el.dataset.cls)));
+    t += +sc.dataset.dur;
+  });
+  later(t, () => { window.FILM_DONE = true; });
+  window.FILM_LENGTH = t;
+}
+document.fonts.ready.then(() => setTimeout(play, 300));
+</script>
+</body>
+</html>

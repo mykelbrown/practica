@@ -1,0 +1,415 @@
+<title>Files, Permissions and Exit Codes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column of numbered lesson stations, each pairing a short explanation with a live diagram. */
+:root {
+  --bg: #EEF2F5; --surface: #FFFFFF; --sunk: #E2E8EE; --line: #C9D3DC;
+  --ink: #17222D; --muted: #5A6B7A; --accent: #B86A00; --accent-soft: #F6E3C6;
+  --ok: #1D7480; --ok-soft: #D5EEF0; --bad: #B23A2E; --bad-soft: #F6DBD7;
+  --term-bg: #16202A; --term-ink: #D9E2EA; --term-dim: #8496A6;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E141B; --surface: #16202A; --sunk: #0B1117; --line: #2A3947;
+  --ink: #D9E2EA; --muted: #8FA0AF; --accent: #F2A93B; --accent-soft: #3A2C17;
+  --ok: #4FB7C3; --ok-soft: #133238; --bad: #E66A5E; --bad-soft: #3A1D1A;
+  --term-bg: #0A0F14; --term-ink: #D9E2EA; --term-dim: #7F909F; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0E141B; --surface: #16202A; --sunk: #0B1117; --line: #2A3947;
+  --ink: #D9E2EA; --muted: #8FA0AF; --accent: #F2A93B; --accent-soft: #3A2C17;
+  --ok: #4FB7C3; --ok-soft: #133238; --bad: #E66A5E; --bad-soft: #3A1D1A;
+  --term-bg: #0A0F14; --term-ink: #D9E2EA; --term-dim: #7F909F; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; }
+main { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.08; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+h2 { font-size: 1.9rem; }
+p { margin: 0; max-width: 65ch; }
+code, kbd { font-family: var(--mono); font-size: .92em; background: var(--sunk); padding: .08em .35em; border-radius: 4px; }
+.eyebrow { font: 600 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+section { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; min-width: 0; }
+.scroll { overflow-x: auto; }
+button { font: 600 .9rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 9px 14px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+header { display: flex; flex-direction: column; gap: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; font: 500 .82rem/1 var(--mono); color: var(--muted); }
+.meta span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; }
+video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: var(--term-bg); display: block; }
+.note { font-size: .88rem; color: var(--muted); }
+
+/* tree */
+.tree { display: grid; grid-template-columns: minmax(0, auto) auto minmax(0, 1fr); gap: 6px 16px; align-items: baseline; font-family: var(--mono); }
+.tree .path { white-space: pre; }
+.tree .dir { color: var(--ok); font-weight: 600; }
+.mode { font: 600 .8rem/1 var(--mono); padding: 4px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); justify-self: start; }
+.mode.none { background: transparent; color: var(--muted); }
+.tree .why { font-family: var(--body); font-size: .9rem; color: var(--muted); }
+
+/* permissions */
+.perm-grid { display: grid; grid-template-columns: 90px repeat(3, minmax(52px, 72px)) auto; gap: 8px; align-items: center; }
+.perm-grid .h { font: 600 .75rem/1 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; text-align: center; }
+.perm-grid .who { font-weight: 600; }
+.bit { position: relative; }
+.bit input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.bit span { display: block; text-align: center; padding: 10px 0; border-radius: 6px; border: 1px solid var(--line); font: 600 1rem/1 var(--mono); color: var(--muted); background: var(--sunk); transition: background .2s, color .2s; }
+.bit span small { display: block; font-size: .7rem; margin-top: 4px; }
+.bit input:checked + span { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.bit input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.digit { font: 700 1.6rem/1 var(--mono); color: var(--accent); text-align: center; min-width: 2ch; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 18px; }
+.readout div { background: var(--sunk); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.readout dt { font: 600 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+.readout dd { margin: 0; font: 600 1.15rem/1.3 var(--mono); overflow-wrap: anywhere; }
+.octal-in { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+.octal-in input { font: 600 1rem/1 var(--mono); width: 7ch; padding: 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+#permSentence { margin-top: 14px; }
+#permWarn { color: var(--bad); font-weight: 600; }
+
+/* diagrams */
+svg text { font-family: var(--mono); fill: var(--ink); }
+svg .lbl { font-size: 13px; fill: var(--muted); }
+svg .box { fill: var(--surface); stroke: var(--line); stroke-width: 2; transition: fill .25s, stroke .25s; }
+svg .edge { stroke: var(--line); stroke-width: 3; fill: none; transition: stroke .25s; }
+svg .on.box { stroke: var(--accent); fill: var(--accent-soft); }
+svg .on.edge { stroke: var(--accent); }
+svg .done-ok.box { stroke: var(--ok); fill: var(--ok-soft); }
+svg .done-bad.box { stroke: var(--bad); fill: var(--bad-soft); }
+.flowlink { stroke: var(--ok); stroke-width: 3; fill: none; stroke-dasharray: 8 8; animation: dash 1s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -16; } }
+
+/* terminal */
+.term { background: var(--term-bg); color: var(--term-ink); border-radius: 10px; padding: 16px 18px; font: 400 .92rem/1.6 var(--mono); min-height: 7.5em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.term .p { color: #4FB7C3; }
+.term .e { color: #E66A5E; }
+.term .d { color: var(--term-dim); }
+.term .cursor { display: inline-block; width: .6em; background: var(--term-ink); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.exit { font: 600 .9rem/1 var(--mono); padding: 6px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); }
+.exit.ok { background: var(--ok-soft); color: var(--ok); }
+.exit.bad { background: var(--bad-soft); color: var(--bad); }
+.sim-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+
+/* checklist */
+.check { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.check label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 4px; accent-color: var(--ok); flex: none; }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; }
+.progress { height: 8px; background: var(--sunk); border-radius: 4px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
+.cmd { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.swipe { display: none; font-size: .82rem; color: var(--muted); margin-top: 8px; }
+.cmd code { flex: 1; min-width: 0; padding: 10px 12px; overflow-wrap: anywhere; font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (max-width: 520px) {
+  .perm-grid { grid-template-columns: 64px repeat(3, minmax(40px, 1fr)) 36px; gap: 6px; }
+  .tree { grid-template-columns: minmax(0, auto) auto; }
+  .tree .why { grid-column: 1 / -1; margin: -2px 0 8px; }
+  .swipe { display: block; }
+}
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Module 1 · Day 1 · Linux &amp; Terminal Fundamentals</div>
+    <h1>Files, permissions and exit codes</h1>
+    <p>Today you build a small application folder by hand, lock it down properly, and write a health check that reports success or failure through its exit code. Pipelines, containers and monitoring all depend on that one number.</p>
+    <div class="meta"><span>Beginner pathway</span><span>~60 minutes</span><span>15 automated checks</span></div>
+  </header>
+
+  <section aria-labelledby="s-video">
+    <div class="eyebrow">Watch first</div>
+    <h2 id="s-video">The lesson in 90 seconds</h2>
+    <video id="film" controls preload="metadata" playsinline poster="poster.jpg">
+      <source src="lesson.webm" type="video/webm">
+      <source src="lesson.mp4" type="video/mp4">
+    </video>
+    <p class="note">No narration: captions run along the bottom. The same file is at <code>module-01/day-01/media/lesson.mp4</code> in your lab.</p>
+  </section>
+
+  <section aria-labelledby="s-map">
+    <div class="eyebrow">Concept 1</div>
+    <h2 id="s-map">What you are building</h2>
+    <p>Everything on Linux is a file or a directory with an owner and a permission mode. This is the target layout. The numbers are the modes the checker will expect.</p>
+    <div class="panel scroll">
+      <div class="tree" id="tree">
+        <span class="path dir">app/</span><span class="mode none">—</span><span class="why">The application root.</span>
+        <span class="path">├── <span class="dir">bin/</span></span><span class="mode none">—</span><span class="why">Executable scripts live here.</span>
+        <span class="path">│   └── healthcheck.sh</span><span class="mode">750</span><span class="why">You run it; your group may run it; nobody else.</span>
+        <span class="path">├── <span class="dir">config/</span></span><span class="mode none">—</span><span class="why">Settings, often containing secrets.</span>
+        <span class="path">│   └── app.env</span><span class="mode">600</span><span class="why">Owner read/write only. Secrets are never world-readable.</span>
+        <span class="path">├── <span class="dir">logs/</span></span><span class="mode">750</span><span class="why">Others cannot list or read logs.</span>
+        <span class="path">│   └── app.log</span><span class="mode none">—</span><span class="why">Empty file, created with <code>touch</code>.</span>
+        <span class="path">└── current-config → config/app.env</span><span class="mode none">link</span><span class="why">A symbolic link (signpost) to the real file.</span>
+      </div>
+    </div>
+    <p>One command creates every directory: <code>mkdir -p app/{bin,config,logs}</code>. The braces expand to three paths and <code>-p</code> makes it safe to run twice.</p>
+  </section>
+
+  <section aria-labelledby="s-perm">
+    <div class="eyebrow">Concept 2</div>
+    <h2 id="s-perm">Permission calculator</h2>
+    <p>Each of the three digits is a sum: read = 4, write = 2, execute = 1. Toggle the bits, pick a preset, or type a mode to see what it means.</p>
+    <div class="panel scroll">
+      <div class="perm-grid" role="group" aria-label="Permission bits">
+        <span></span><span class="h">read</span><span class="h">write</span><span class="h">exec</span><span class="h">digit</span>
+      </div>
+      <dl class="readout">
+        <div><dt>Octal</dt><dd id="octal">750</dd></div>
+        <div><dt>ls -l shows</dt><dd id="symbolic">-rwxr-x---</dd></div>
+        <div><dt>Command</dt><dd id="chmodCmd">chmod 750 file</dd></div>
+      </dl>
+      <p id="permSentence"></p>
+      <p id="permWarn" hidden></p>
+      <div class="octal-in">
+        <label for="octalInput">Type a mode</label>
+        <input id="octalInput" inputmode="numeric" maxlength="3" value="750" aria-describedby="octalErr">
+        <span id="octalErr" class="note"></span>
+      </div>
+      <div class="btns" style="margin-top:14px" id="presets">
+        <button data-mode="750">750 script</button>
+        <button data-mode="600">600 secret</button>
+        <button data-mode="644">644 normal file</button>
+        <button data-mode="755">755 public dir</button>
+        <button data-mode="777">777 danger</button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-link">
+    <div class="eyebrow">Concept 3</div>
+    <h2 id="s-link">Symbolic links</h2>
+    <p>A symlink stores a path, not data. Deployment tools keep several releases side by side and repoint <code>current</code> to switch between them in one step. Use a <strong>relative</strong> target so the link still works if the whole folder moves.</p>
+    <div class="panel scroll">
+      <svg viewBox="0 0 640 120" width="640" height="120" role="img" aria-label="current-config points to config/app.env">
+        <rect class="box" x="10" y="35" width="190" height="50" rx="8" style="stroke:var(--ok)"/>
+        <text x="105" y="66" text-anchor="middle">current-config</text>
+        <path class="flowlink" d="M205 60 H400"/>
+        <path d="M398 50 L416 60 L398 70 Z" style="fill:var(--ok)"/>
+        <text class="lbl" x="310" y="45" text-anchor="middle">points to</text>
+        <rect class="box" x="420" y="35" width="210" height="50" rx="8"/>
+        <text x="525" y="66" text-anchor="middle">config/app.env</text>
+      </svg>
+      <p class="swipe">Swipe the diagram sideways to see all of it.</p>
+      <div class="term" style="min-height:0;margin-top:12px"><span class="p">$</span> cd app &amp;&amp; ln -s config/app.env current-config
+<span class="p">$</span> ls -l current-config
+<span class="d">lrwxrwxrwx 1 you you 14 Oct 15 12:00</span> current-config -&gt; config/app.env</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-exit">
+    <div class="eyebrow">Concept 4</div>
+    <h2 id="s-exit">Exit codes and output streams</h2>
+    <p>Your <code>healthcheck.sh</code> has three possible outcomes. Pick a scenario to trace the path through the script and see where each message goes: normal output to <strong>stdout</strong>, errors to <strong>stderr</strong>.</p>
+    <div class="panel">
+      <div class="sim-head">
+        <div class="btns" id="scenarios">
+          <button data-scn="healthy">Config is fine</button>
+          <button data-scn="missing">Config file missing</button>
+          <button data-scn="badport">APP_PORT=abc</button>
+        </div>
+        <span class="exit" id="exitBadge">exit —</span>
+      </div>
+      <div class="scroll" style="margin-top:16px">
+        <svg id="flow" viewBox="0 0 800 330" width="800" height="330" role="img" aria-label="Health check decision flow">
+          <path class="edge" id="e-s-d1" d="M140 150 H180"/>
+          <path class="edge" id="e-d1-d2" d="M350 150 H400"/>
+          <path class="edge" id="e-d1-e2" d="M265 185 V255"/>
+          <path class="edge" id="e-d2-ok" d="M570 150 H610"/>
+          <path class="edge" id="e-d2-e3" d="M485 185 V255"/>
+          <text class="lbl" x="375" y="140" text-anchor="middle">yes</text>
+          <text class="lbl" x="590" y="140" text-anchor="middle">yes</text>
+          <text class="lbl" x="280" y="225">no</text>
+          <text class="lbl" x="500" y="225">no</text>
+          <rect class="box" id="n-start" x="10" y="125" width="130" height="50" rx="25"/><text x="75" y="155" text-anchor="middle">run script</text>
+          <rect class="box" id="n-d1" x="180" y="115" width="170" height="70" rx="8"/><text x="265" y="146" text-anchor="middle">app.env</text><text x="265" y="166" text-anchor="middle">exists?</text>
+          <rect class="box" id="n-d2" x="400" y="115" width="170" height="70" rx="8"/><text x="485" y="146" text-anchor="middle">APP_PORT</text><text x="485" y="166" text-anchor="middle">is a number?</text>
+          <rect class="box" id="n-ok" x="610" y="115" width="180" height="70" rx="8"/><text x="700" y="146" text-anchor="middle">stdout: OK …</text><text x="700" y="166" text-anchor="middle">exit 0</text>
+          <rect class="box" id="n-e2" x="180" y="255" width="170" height="64" rx="8"/><text x="265" y="283" text-anchor="middle">stderr: ERROR</text><text x="265" y="303" text-anchor="middle">exit 2</text>
+          <rect class="box" id="n-e3" x="400" y="255" width="170" height="64" rx="8"/><text x="485" y="283" text-anchor="middle">stderr: ERROR</text><text x="485" y="303" text-anchor="middle">exit 3</text>
+        </svg>
+      </div>
+      <p class="swipe">Swipe the diagram sideways to see every outcome.</p>
+      <div class="term" id="simTerm" aria-live="polite"><span class="d">Pick a scenario above.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-replay">
+    <div class="eyebrow">Warm-up</div>
+    <h2 id="s-replay">Terminal replay</h2>
+    <p>Watch these commands run, then type them yourself in <code>workspace/</code>. <code>$?</code> holds the exit code of the last command.</p>
+    <div class="btns"><button id="replayPlay">Play</button><button id="replayRestart">Restart</button></div>
+    <div class="term" id="replay" aria-live="off"></div>
+  </section>
+
+  <section aria-labelledby="s-do">
+    <div class="eyebrow">Your challenge</div>
+    <h2 id="s-do">Build it, then verify</h2>
+    <p>Work in <code>~/devops-lab/module-01/day-01/workspace/</code>. Tick items off as you go; ticks are saved in this browser only. The full spec is in <code>LESSON.md</code>.</p>
+    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+      <ul class="check" id="checklist"></ul>
+      <div class="cmd"><code id="verifyCmd">~/devops-lab/module-01/day-01/verify.sh</code><button id="copyBtn">Copy</button></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  /* ---------- permission calculator ---------- */
+  const who = ["owner", "group", "others"], bits = [["r", 4, "read"], ["w", 2, "write"], ["x", 1, "execute"]];
+  const grid = document.querySelector(".perm-grid");
+  who.forEach((w, wi) => {
+    grid.insertAdjacentHTML("beforeend", `<span class="who">${w}</span>`);
+    bits.forEach(([ch, val, name]) => grid.insertAdjacentHTML("beforeend",
+      `<label class="bit"><input type="checkbox" id="b-${w}-${ch}" data-w="${wi}" data-v="${val}" aria-label="${w} ${name}"><span>${ch}<small>${val}</small></span></label>`));
+    grid.insertAdjacentHTML("beforeend", `<span class="digit" id="d-${wi}">0</span>`);
+  });
+  const boxes = [...grid.querySelectorAll("input")];
+  const $ = id => document.getElementById(id);
+
+  function digits() {
+    const d = [0, 0, 0];
+    boxes.forEach(b => { if (b.checked) d[b.dataset.w] += +b.dataset.v; });
+    return d;
+  }
+  function describe(n) {
+    const p = []; if (n & 4) p.push("read"); if (n & 2) p.push("write"); if (n & 1) p.push("execute");
+    return p.length ? p.join(", ").replace(/, ([^,]*)$/, " and $1") : "do nothing";
+  }
+  function renderPerm(fromInput) {
+    const d = digits(), oct = d.join("");
+    d.forEach((v, i) => $("d-" + i).textContent = v);
+    $("octal").textContent = oct;
+    $("symbolic").textContent = "-" + d.map(v => (v & 4 ? "r" : "-") + (v & 2 ? "w" : "-") + (v & 1 ? "x" : "-")).join("");
+    $("chmodCmd").textContent = `chmod ${oct} file`;
+    $("permSentence").textContent = `The owner can ${describe(d[0])}. The group can ${describe(d[1])}. Everyone else can ${describe(d[2])}.`;
+    const warn = $("permWarn");
+    if (d[2] & 2) { warn.hidden = false; warn.textContent = "Warning: any user on the machine can modify this. Avoid world-writable files."; }
+    else warn.hidden = true;
+    if (!fromInput) { $("octalInput").value = oct; $("octalErr").textContent = ""; }
+    document.querySelectorAll("#presets button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === oct)));
+  }
+  function setMode(m) {
+    [...m].forEach((c, wi) => boxes.filter(b => b.dataset.w == wi).forEach(b => b.checked = (+c & +b.dataset.v) !== 0));
+  }
+  boxes.forEach(b => b.addEventListener("change", () => renderPerm(false)));
+  document.querySelectorAll("#presets button").forEach(b => b.addEventListener("click", () => { setMode(b.dataset.mode); renderPerm(false); }));
+  $("octalInput").addEventListener("input", e => {
+    const v = e.target.value.trim();
+    if (/^[0-7]{3}$/.test(v)) { setMode(v); renderPerm(true); $("octalErr").textContent = ""; }
+    else $("octalErr").textContent = "Use three digits from 0 to 7, for example 640.";
+  });
+  setMode("750"); renderPerm(false);
+
+  /* ---------- health-check simulator ---------- */
+  const scn = {
+    healthy: { path: ["n-start", "e-s-d1", "n-d1", "e-d1-d2", "n-d2", "e-d2-ok", "n-ok"], code: 0,
+      out: [["p", "$ ./bin/healthcheck.sh; echo \"exit=$?\""], ["", "OK env=development port=8080"], ["d", "        ↑ stdout (fd 1)"], ["", "exit=0"]] },
+    missing: { path: ["n-start", "e-s-d1", "n-d1", "e-d1-e2", "n-e2"], code: 2,
+      out: [["p", "$ ./bin/healthcheck.sh; echo \"exit=$?\""], ["e", "ERROR: missing config/app.env"], ["d", "        ↑ stderr (fd 2)"], ["", "exit=2"]] },
+    badport: { path: ["n-start", "e-s-d1", "n-d1", "e-d1-d2", "n-d2", "e-d2-e3", "n-e3"], code: 3,
+      out: [["p", "$ ./bin/healthcheck.sh; echo \"exit=$?\""], ["e", "ERROR: APP_PORT 'abc' is not a number"], ["d", "        ↑ stderr (fd 2)"], ["", "exit=3"]] }
+  };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let simRun = 0;
+  function runScenario(name) {
+    const s = scn[name], run = ++simRun, step = reduce ? 0 : 380;
+    document.querySelectorAll("#flow .on, #flow .done-ok, #flow .done-bad").forEach(el => el.classList.remove("on", "done-ok", "done-bad"));
+    document.querySelectorAll("#scenarios button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.scn === name)));
+    const badge = $("exitBadge"); badge.className = "exit"; badge.textContent = "exit …";
+    const term = $("simTerm"); term.innerHTML = "";
+    s.path.forEach((id, i) => setTimeout(() => {
+      if (run !== simRun) return;
+      const el = document.getElementById(id); el.classList.add("on");
+      if (i === s.path.length - 1) {
+        el.classList.remove("on"); el.classList.add(s.code === 0 ? "done-ok" : "done-bad");
+        badge.textContent = "exit " + s.code; badge.classList.add(s.code === 0 ? "ok" : "bad");
+        term.innerHTML = s.out.map(([c, t]) => `<span class="${c}">${t.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span>`).join("\n");
+      }
+    }, i * step));
+  }
+  document.querySelectorAll("#scenarios button").forEach(b => b.addEventListener("click", () => runScenario(b.dataset.scn)));
+
+  /* ---------- terminal replay ---------- */
+  const script = [
+    ["cd ~/devops-lab/module-01/day-01/workspace", ""],
+    ["mkdir -p demo/{one,two} && ls demo", "one  two"],
+    ["touch demo/secret && chmod 600 demo/secret", ""],
+    ["stat -c '%a %n' demo/secret", "600 demo/secret"],
+    ["ls /does-not-exist; echo \"exit=$?\"", "!ls: cannot access '/does-not-exist': No such file or directory\nexit=2"],
+    ["true; echo \"exit=$?\"", "exit=0"],
+    ["rm -rf demo", ""]
+  ];
+  const rp = $("replay"), playBtn = $("replayPlay");
+  let ri = 0, ci = 0, playing = false, timer = null, html = "";
+  const esc = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  function paint(partial) { rp.innerHTML = html + (partial !== undefined ? `<span class="p">$</span> ${esc(partial)}<span class="cursor">&nbsp;</span>` : ""); }
+  function finishLine() {
+    const [cmd, out] = script[ri];
+    html += `<span class="p">$</span> ${esc(cmd)}\n`;
+    if (out) html += out.startsWith("!") ? `<span class="e">${esc(out.slice(1).split("\n")[0])}</span>\n${esc(out.split("\n").slice(1).join("\n"))}${out.includes("\n") ? "\n" : ""}` : esc(out) + "\n";
+    ri++; ci = 0;
+  }
+  function tick() {
+    if (!playing) return;
+    if (ri >= script.length) { playing = false; playBtn.textContent = "Play"; paint(""); rp.dataset.done = "1"; return; }
+    if (reduce) { while (ri < script.length) finishLine(); return tick(); }
+    const cmd = script[ri][0];
+    if (ci < cmd.length) { ci++; paint(cmd.slice(0, ci)); timer = setTimeout(tick, 32); }
+    else { finishLine(); paint(""); timer = setTimeout(tick, 650); }
+  }
+  playBtn.addEventListener("click", () => {
+    if (ri >= script.length) restart();
+    playing = !playing; playBtn.textContent = playing ? "Pause" : "Play";
+    clearTimeout(timer); if (playing) tick();
+  });
+  function restart() { clearTimeout(timer); ri = 0; ci = 0; html = ""; delete rp.dataset.done; paint(""); }
+  $("replayRestart").addEventListener("click", () => { restart(); playing = true; playBtn.textContent = "Pause"; tick(); });
+  paint("");
+
+  /* ---------- checklist ---------- */
+  const items = [
+    "Create app/bin, app/config and app/logs with one mkdir -p command",
+    "Create the empty file app/logs/app.log",
+    "Write app/config/app.env with APP_ENV and APP_PORT",
+    "Write bin/healthcheck.sh with the shebang and set -euo pipefail",
+    "Load app.env relative to the script's own location",
+    "Exit 2 with ERROR on stderr when app.env is missing",
+    "Exit 3 with ERROR on stderr when APP_PORT is not a number",
+    "chmod 750 healthcheck.sh, 600 app.env, 750 logs/",
+    "Create the relative symlink current-config",
+    "Run verify.sh until all 15 checks pass"
+  ];
+  const KEY = "m1d1-checklist";
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { saved = []; }
+  const list = $("checklist");
+  items.forEach((t, i) => list.insertAdjacentHTML("beforeend",
+    `<li><label><input type="checkbox" id="c-${i}" ${saved.includes(i) ? "checked" : ""}><span>${esc(t)}</span></label></li>`));
+  function updateBar() {
+    const done = items.map((_, i) => $("c-" + i).checked ? i : -1).filter(i => i >= 0);
+    $("bar").style.width = (done.length / items.length * 100) + "%";
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  }
+  list.addEventListener("change", updateBar); updateBar();
+
+  $("copyBtn").addEventListener("click", () => {
+    const txt = $("verifyCmd").textContent, btn = $("copyBtn");
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents($("verifyCmd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press Ctrl+C"; };
+    try { navigator.clipboard.writeText(txt).then(() => { btn.textContent = "Copied"; setTimeout(() => btn.textContent = "Copy", 1600); }, fallback); }
+    catch (e) { fallback(); }
+  });
+})();
+</script>

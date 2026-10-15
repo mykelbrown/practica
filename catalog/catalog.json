@@ -1,0 +1,113 @@
+{
+  "name": "Practica",
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations"
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner"
+    },
+    {
+      "id": "advanced",
+      "title": "Professional"
+    },
+    {
+      "id": "expert",
+      "title": "Expert"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "ai",
+      "title": "AI & Machine Learning",
+      "summary": "Build, ship and run AI systems"
+    },
+    {
+      "id": "infra",
+      "title": "Infrastructure & Platforms",
+      "summary": "Run software reliably at scale"
+    },
+    {
+      "id": "data",
+      "title": "Data",
+      "summary": "Move, model and trust data"
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "summary": "Defend systems, pipelines and models"
+    },
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "summary": "The base every other course builds on"
+    }
+  ],
+  "courses": [
+    "devops",
+    "ai-engineering",
+    "mlops",
+    "data-engineering",
+    "cloud",
+    "kubernetes",
+    "security",
+    "python",
+    "ai-assisted-dev"
+  ],
+  "paths": [
+    {
+      "id": "ai-engineer",
+      "title": "AI Engineer",
+      "summary": "Build and ship LLM products end to end.",
+      "courses": [
+        "python",
+        "ai-assisted-dev",
+        "ai-engineering",
+        "mlops"
+      ]
+    },
+    {
+      "id": "platform-engineer",
+      "title": "Platform / DevOps Engineer",
+      "summary": "Run software and AI workloads reliably.",
+      "courses": [
+        "devops",
+        "kubernetes",
+        "cloud"
+      ]
+    },
+    {
+      "id": "ml-platform",
+      "title": "ML Platform Engineer",
+      "summary": "Infrastructure for training and serving models.",
+      "courses": [
+        "python",
+        "devops",
+        "mlops",
+        "kubernetes"
+      ]
+    },
+    {
+      "id": "data-ai",
+      "title": "Data Engineer for AI",
+      "summary": "Pipelines that feed analytics and AI.",
+      "courses": [
+        "python",
+        "data-engineering",
+        "ai-engineering"
+      ]
+    },
+    {
+      "id": "devsecops",
+      "title": "DevSecOps / AI Security",
+      "summary": "Secure pipelines, cloud and AI systems.",
+      "courses": [
+        "devops",
+        "security",
+        "cloud"
+      ]
+    }
+  ]
+}

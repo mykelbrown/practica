@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>AI B1 Film</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Film stage: fixed 1280x720, single dark "schematic" look for video. */
+:root {
+  --bg: #0E141B; --panel: #16202A; --line: #2A3947; --ink: #D9E2EA; --muted: #8496A6;
+  --amber: #F2A93B; --teal: #4FB7C3; --red: #E66A5E; --dim: #3A4A59;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); }
+.stage { position: relative; width: 1280px; height: 720px; overflow: hidden; background:
+  radial-gradient(circle at 1px 1px, #1C2733 1px, transparent 0) 0 0 / 32px 32px, var(--bg);
+  color: var(--ink); font-family: var(--body); }
+.scene { position: absolute; inset: 0 0 96px 0; padding: 56px 88px; opacity: 0; transition: opacity .5s; display: flex; flex-direction: column; gap: 28px; }
+.scene.on { opacity: 1; }
+.eyebrow { font: 600 15px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+h1 { font: 700 76px/1.02 var(--display); margin: 0; letter-spacing: -.01em; }
+h2 { font: 700 46px/1.1 var(--display); margin: 0; }
+.cap { position: absolute; left: 0; right: 0; bottom: 0; height: 96px; display: flex; align-items: center; padding: 0 88px;
+  background: #0A0F14; border-top: 1px solid var(--line); font: 500 25px/1.3 var(--body); color: var(--ink); }
+.cap b { color: var(--amber); font-weight: 500; }
+[data-at] { opacity: 0; transform: translateY(10px); transition: opacity .45s, transform .45s; }
+[data-at].on { opacity: 1; transform: none; }
+.term { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 28px; font: 400 24px/1.6 var(--mono); white-space: pre; }
+.term .p { color: var(--teal); }
+.term .err { color: var(--red); }
+.row { display: flex; gap: 28px; align-items: center; }
+/* permission scene */
+.perm { display: flex; gap: 6px; font: 600 72px/1 var(--mono); }
+.perm span { width: 58px; text-align: center; color: var(--dim); transition: color .3s, transform .3s; }
+.perm span.lit { color: var(--ink); }
+.groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grp { border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; background: var(--panel); }
+.grp h3 { margin: 0 0 12px; font: 600 16px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.bits { display: flex; gap: 10px; font: 600 30px/1 var(--mono); }
+.bit { flex: 1; text-align: center; padding: 10px 0; border-radius: 6px; background: #0E141B; color: var(--dim); transition: background .3s, color .3s; }
+.bit small { display: block; font-size: 15px; margin-top: 6px; }
+.bit.lit { background: rgba(242,169,59,.16); color: var(--amber); }
+.sum { margin-top: 14px; font: 600 26px/1 var(--mono); color: var(--muted); }
+.sum b { color: var(--amber); font-size: 40px; }
+/* symlink */
+.node { border: 2px solid var(--line); background: var(--panel); border-radius: 10px; padding: 22px 28px; font: 600 28px/1 var(--mono); }
+.node.link { border-color: var(--teal); color: var(--teal); }
+svg .draw { stroke-dasharray: 520; stroke-dashoffset: 520; transition: stroke-dashoffset 1.4s ease; }
+svg .draw.on { stroke-dashoffset: 0; opacity: 1; transform: none; }
+/* pipeline */
+.pipe { display: flex; align-items: center; gap: 14px; }
+.stagebox { min-width: 190px; text-align: center; padding: 18px 10px; border-radius: 10px; border: 2px solid var(--line); font: 600 24px/1 var(--mono); color: var(--muted); background: var(--panel); transition: all .35s; }
+.stagebox.ok { border-color: var(--teal); color: var(--teal); background: rgba(79,183,195,.12); }
+.stagebox.fail { border-color: var(--red); color: var(--red); background: rgba(230,106,94,.12); }
+.stagebox.skip { border-style: dashed; color: var(--dim); }
+.arrow { color: var(--dim); font: 600 28px/1 var(--mono); }
+.label { font: 500 22px/1.3 var(--body); color: var(--muted); min-width: 260px; }
+.label code { font-family: var(--mono); color: var(--ink); }
+/* streams */
+.lanes { display: grid; grid-template-columns: 240px 1fr 380px; gap: 0 24px; align-items: center; row-gap: 40px; }
+.proc { grid-row: span 2; height: 100%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--amber); border-radius: 12px; font: 600 26px/1.3 var(--mono); color: var(--amber); text-align: center; }
+.lane { position: relative; height: 6px; border-radius: 3px; background: var(--line); }
+.lane i { position: absolute; top: -9px; left: 0; width: 24px; height: 24px; border-radius: 50%; opacity: 0; }
+.lane.out i { background: var(--teal); } .lane.err i { background: var(--red); }
+.lane i.on { opacity: 1; animation: flow 1.6s linear infinite; }
+@keyframes flow { from { left: 0; } to { left: calc(100% - 24px); } }
+.lane span { position: absolute; top: -40px; left: 0; font: 600 18px/1 var(--mono); color: var(--muted); }
+.dest { font: 400 22px/1.4 var(--mono); padding: 16px 20px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.dest.out { color: var(--teal); } .dest.err { color: var(--red); }
+/* flags */
+.flags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.flag { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 14px; }
+.flag code { font: 600 40px/1 var(--mono); color: var(--amber); }
+.flag p { margin: 0; font: 400 23px/1.4 var(--body); }
+.flag pre { margin: 0; font: 400 18px/1.5 var(--mono); color: var(--muted); white-space: pre-wrap; }
+.tree { font: 400 30px/1.55 var(--mono); white-space: pre; }
+.tree .d { color: var(--teal); } .tree .m { color: var(--amber); font-size: 22px; }
+.big-check { font: 600 30px/1.6 var(--mono); }
+.big-check .ok { color: var(--teal); }
+.flow { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+.tight .stagebox { min-width: 130px; } .tight .label { min-width: 200px; }
+.chip { border: 2px solid var(--line); background: var(--panel); border-radius: 10px; padding: 14px 18px; font: 600 22px/1.2 var(--mono); transition: all .35s; white-space: nowrap; }
+.chip.ok { border-color: var(--teal); color: var(--teal); background: rgba(79,183,195,.12); }
+.chip.fail { border-color: var(--red); color: var(--red); background: rgba(230,106,94,.12); }
+.chip.hot { border-color: var(--amber); color: var(--amber); }
+.reply { font: 400 22px/1.55 var(--mono); white-space: pre; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 24px; }
+.reply .hl { transition: background .4s, color .4s; border-radius: 4px; }
+.reply .hl.lit { background: rgba(242,169,59,.18); color: var(--amber); }
+.reply .dim { color: var(--muted); }
+.rule { display: grid; grid-template-columns: 220px 1fr 70px; gap: 16px; align-items: center; font: 400 22px/1.4 var(--mono); padding: 10px 0; border-bottom: 1px solid var(--line); }
+.rule .v { text-align: center; font-weight: 600; color: var(--dim); transition: color .3s; }
+.rule .v.ok { color: var(--teal); } .rule .v.fail { color: var(--red); }
+.loop { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.att { border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--panel); display: flex; flex-direction: column; gap: 10px; font: 400 19px/1.45 var(--mono); }
+.att h3 { margin: 0; font: 600 16px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.att .res { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <section class="scene" data-dur="5000" data-cap="AI Engineering · Beginner · Lesson 1">
+    <div class="eyebrow" data-at="200">AI Engineering · LLM apps, RAG &amp; agents</div>
+    <h1 data-at="600">Structured output:<br>making model replies machine-safe</h1>
+    <p data-at="1400" style="font:400 28px/1.4 var(--body);color:var(--muted);margin:0;max-width:960px">The thin layer of code between every LLM call and the rest of your system.</p>
+  </section>
+
+  <section class="scene" data-dur="9000" data-cap="You asked for JSON. The model sent <b>prose, a code fence and JSON</b>. Your code still has to cope">
+    <div class="eyebrow">1 · Models return text</div>
+    <div class="flow"><div class="chip" data-at="200">ticket</div><span class="arrow">→</span><div class="chip" data-at="600">prompt</div><span class="arrow">→</span><div class="chip hot" data-at="1000">model</div><span class="arrow">→</span><div class="chip" data-at="1400">reply: str</div></div>
+    <div class="reply" data-at="2200"><span class="dim">Sure! Here is the classification:</span>
+<span class="dim">```json</span>
+{"intent": "refund", "priority": 9, "summary": "Charged twice"}
+<span class="dim">```</span>
+<span class="dim">Let me know if you need anything else.</span></div>
+  </section>
+
+  <section class="scene" data-dur="8000" data-cap="Step 1: <b>extract</b>. Take the fenced block, or fall back to the first <b>{</b> to the last <b>}</b>">
+    <div class="eyebrow">2 · Extract</div>
+    <div class="reply"><span class="dim">Sure! Here is the classification:</span>
+<span class="dim">```json</span>
+<span class="hl" data-lit="1200" data-cls="lit">{"intent": "refund", "priority": 9, "summary": "Charged twice"}</span>
+<span class="dim">```</span>
+<span class="dim">Let me know if you need anything else.</span></div>
+    <div class="term" data-at="3200" style="align-self:flex-start;font-size:22px">fence = re.search(r"```(?:json)?\s*(.*?)```", text, re.S)
+data  = json.loads(fence.group(1))   <span class="p"># ValueError if broken</span></div>
+  </section>
+
+  <section class="scene" data-dur="10000" data-cap="Step 2: <b>validate</b> every field. Valid JSON can still be wrong: priority 9 is out of range">
+    <div class="eyebrow">3 · Validate against the schema</div>
+    <div>
+      <div class="rule" data-at="300"><span>keys</span><span>exactly intent, priority, summary</span><span class="v" data-lit="1300" data-cls="ok">✓</span></div>
+      <div class="rule" data-at="600"><span>intent</span><span>refund | question | complaint</span><span class="v" data-lit="2300" data-cls="ok">✓</span></div>
+      <div class="rule" data-at="900"><span>priority</span><span>integer 1–5 (not true, 4.5 or "4")</span><span class="v" data-lit="3300" data-cls="fail">✗</span></div>
+      <div class="rule" data-at="1200"><span>summary</span><span>non-empty, ≤ 120 characters, trimmed</span><span class="v" data-lit="4300" data-cls="ok">✓</span></div>
+    </div>
+    <div class="term" data-at="5600" style="align-self:flex-start;font-size:22px"><span class="err">ValueError: priority must be an integer 1-5, got 9</span></div>
+  </section>
+
+  <section class="scene" data-dur="11000" data-cap="Step 3: <b>retry with feedback</b>. Send the exact error back and most models fix it on the next try">
+    <div class="eyebrow">4 · Retry with feedback</div>
+    <div class="loop">
+      <div class="att" data-at="300"><h3>Attempt 1</h3><span>prompt(ticket)</span><span class="res" style="color:var(--red)" data-at="1300">✗ priority got 9</span></div>
+      <div class="att" data-at="2600"><h3>Attempt 2</h3><span>prompt(ticket,<br>&nbsp;error=<span style="color:var(--amber)">"priority must<br>&nbsp;be 1-5, got 9"</span>)</span><span class="res" style="color:var(--teal)" data-at="4400">✓ valid dict</span></div>
+      <div class="att" data-at="5400" style="color:var(--muted)"><h3>Attempt 3</h3><span>not needed</span></div>
+    </div>
+    <div class="term" data-at="6800" style="align-self:flex-start;font-size:21px">… Your <span class="p">previous reply was invalid</span>: priority must be 1-5, got 9.
+Reply again with corrected JSON only.</div>
+  </section>
+
+  <section class="scene tight" data-dur="10000" data-cap="<b>Bound the retries</b> and let outages through. Silent loops cost money and hide incidents">
+    <div class="eyebrow">5 · Know when to stop</div>
+    <div class="pipe" data-at="300"><div class="label">always invalid</div>
+      <div class="stagebox" data-lit="800" data-cls="fail">try 1</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="1500" data-cls="fail">try 2</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="2200" data-cls="fail">try 3</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="3000" data-cls="fail" style="min-width:210px">RuntimeError</div></div>
+    <div class="pipe" data-at="4400"><div class="label">model timed out</div>
+      <div class="stagebox" data-lit="5000" data-cls="fail">try 1</div><span class="arrow">→</span>
+      <div class="stagebox" data-lit="5800" data-cls="fail" style="min-width:210px">TimeoutError ↑</div>
+      <span class="label" data-at="6400" style="min-width:0">raised to the caller, not retried</span></div>
+  </section>
+
+  <section class="scene" data-dur="9000" data-cap="Test the logic with <b>scripted fake models</b>: fast, free and deterministic">
+    <div class="eyebrow">6 · Testing without an API key</div>
+    <div class="term" style="font-size:22px"><span class="type" data-at="200" data-text="model = Scripted('{bad json', GOOD)   # fails once, then succeeds"></span>
+<span class="type" data-at="3000" data-text="classify('ticket', model) == WANT       # True"></span>
+<span class="type" data-at="5000" data-text="len(model.prompts) == 2                  # retried exactly once"></span></div>
+  </section>
+
+  <section class="scene" data-dur="9000" data-cap="Implement <b>workspace/extract.py</b>, then run the checker until all 28 checks pass">
+    <div class="eyebrow">Your turn</div>
+    <h2 data-at="200">Make the triager <span style="font-family:var(--mono);color:var(--amber)">machine-safe</span></h2>
+    <div class="term"><span class="type" data-at="900" data-text="$ practica verify"></span></div>
+    <div class="big-check"><div data-at="2600"><span class="ok">PASS</span> fence wins over braces in surrounding prose</div><div data-at="3200"><span class="ok">PASS</span> priority true rejected</div><div data-at="3800"><span class="ok">PASS</span> invalid then valid: retries once with feedback</div><div data-at="4600" style="color:var(--amber)">Result: 28 passed, 0 failed</div></div>
+  </section>
+
+  <div class="cap" id="cap"></div>
+</div>
+
+<script>
+const scenes = [...document.querySelectorAll(".scene")];
+const cap = document.getElementById("cap");
+const timers = [];
+const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+function typeOut(el) {
+  const text = el.dataset.text; let i = 0;
+  const tick = () => { el.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 38); };
+  tick();
+}
+
+function play() {
+  let t = 0;
+  scenes.forEach((sc, idx) => {
+    const start = t;
+    later(start, () => {
+      scenes.forEach(s => s.classList.remove("on"));
+      sc.classList.add("on");
+      cap.innerHTML = "<span>" + sc.dataset.cap + "</span>";
+    });
+    sc.querySelectorAll("[data-at]").forEach(el => later(start + +el.dataset.at, () => {
+      el.classList.add("on");
+      if (el.classList.contains("type")) typeOut(el);
+    }));
+    sc.querySelectorAll("[data-lit]").forEach(el => later(start + +el.dataset.lit, () => el.classList.add(el.dataset.cls)));
+    t += +sc.dataset.dur;
+  });
+  later(t, () => { window.FILM_DONE = true; });
+  window.FILM_LENGTH = t;
+}
+document.fonts.ready.then(() => setTimeout(play, 300));
+</script>
+</body>
+</html>

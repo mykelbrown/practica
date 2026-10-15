@@ -1,0 +1,351 @@
+{
+  "id": "python",
+  "title": "Python for Automation & AI",
+  "track": "foundations",
+  "summary": "The programming foundation for automation, data and AI work: from first script to production-grade packages.",
+  "why_now": "Python is the language of AI and automation; fluency multiplies everything else you learn.",
+  "careers": [
+    "Automation Engineer",
+    "Backend Developer",
+    "Foundation for every AI role"
+  ],
+  "outcomes": [
+    "Write clean, tested Python",
+    "Automate real tasks",
+    "Package and ship tools"
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Foundations",
+      "hours": 40,
+      "capstone": "A command-line tool that automates a real chore, with tests",
+      "modules": [
+        {
+          "id": "m01",
+          "title": "First steps",
+          "outcome": "Read and write simple programs",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Values, variables and types",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Control flow",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Functions",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m02",
+          "title": "Working with data",
+          "outcome": "Handle real inputs",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Lists, dicts and sets",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Files and paths",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "JSON and CSV",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m03",
+          "title": "Quality habits",
+          "outcome": "Write code you can trust",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Errors and exceptions",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Testing with pytest",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Style and linting",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "title": "Practitioner",
+      "hours": 50,
+      "capstone": "An API client library with retries, typing and full test coverage",
+      "modules": [
+        {
+          "id": "m04",
+          "title": "Structuring code",
+          "outcome": "Grow beyond one file",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Modules and packages",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Classes and dataclasses",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Type hints and mypy",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m05",
+          "title": "Automation",
+          "outcome": "Talk to the outside world",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "HTTP and APIs",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Command-line interfaces",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Scheduling and subprocesses",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m06",
+          "title": "Tooling",
+          "outcome": "Work like a professional",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Virtual environments and uv",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Debugging",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Logging",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Professional",
+      "hours": 60,
+      "capstone": "An async service with a database, packaged and published",
+      "modules": [
+        {
+          "id": "m07",
+          "title": "Concurrency",
+          "outcome": "Do many things at once",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Threads and processes",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "asyncio",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Concurrency pitfalls",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m08",
+          "title": "Data and AI libraries",
+          "outcome": "Use the ecosystem",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "NumPy and pandas essentials",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Pydantic validation",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Calling AI APIs",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m09",
+          "title": "Shipping",
+          "outcome": "Distribute your code",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Packaging and publishing",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Docker for Python",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "CI for Python projects",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expert",
+      "title": "Expert",
+      "hours": 70,
+      "capstone": "Contribute a substantial, reviewed change to an open-source Python project",
+      "modules": [
+        {
+          "id": "m10",
+          "title": "Performance",
+          "outcome": "Make Python fast enough",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Profiling",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Efficient algorithms and data structures",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Native extensions and alternatives",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m11",
+          "title": "Design",
+          "outcome": "Write maintainable systems",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "Design patterns in Python",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Architecture and boundaries",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Refactoring legacy code",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        },
+        {
+          "id": "m12",
+          "title": "Mastery",
+          "outcome": "Know the language deeply",
+          "lessons": [
+            {
+              "id": "l01",
+              "title": "The data model and descriptors",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l02",
+              "title": "Metaprogramming",
+              "status": "planned",
+              "minutes": 60
+            },
+            {
+              "id": "l03",
+              "title": "Open-source contribution",
+              "status": "planned",
+              "minutes": 60
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

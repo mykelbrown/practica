@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "created_at": "2026-10-15T13:07:19",
+  "learner": {
+    "baseline_experience": "Beginner",
+    "preferences": {
+      "visual_lessons": true,
+      "diagrams": true,
+      "animations": true
+    }
+  },
+  "active_course": "devops",
+  "enrolments": {
+    "devops": {
+      "enrolled_at": "2026-10-15T13:07:19",
+      "start_level": "beginner",
+      "lessons": {},
+      "certificates": {},
+      "legacy": {
+        "completed_steps": [
+          "m1d1:environment_inspected",
+          "m1d1:lesson_scaffolded",
+          "m1d1:verifier_self_tested",
+          "m1d1:video_rendered",
+          "m1d1:interactive_page_published",
+          "m1d1:page_tests_46_pass",
+          "m1d1:verifier_selftest_7_pass"
+        ],
+        "lesson_assets": {
+          "m1d1": {
+            "page": "https://claude.ai/artifact/PKNsaDxmRFk48Qq88CgjX1",
+            "video": "devops-lab/module-01/day-01/media/lesson.mp4"
+          }
+        },
+        "current_module": 1,
+        "current_day": 1
+      }
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-15T13:07:19",
+      "event": "migrated",
+      "detail": "imported .devops_progress.json (v1)"
+    }
+  ]
+}
