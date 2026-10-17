@@ -330,6 +330,33 @@ class ProgressionTests(unittest.TestCase):
         self.f.run("verify")
         self.assertFalse(self.f.legacy.exists(), "the legacy mirror must only update an existing file")
 
+    def test_save_commits_and_pushes_progress_and_work(self):
+        g = lambda *a, cwd=self.f.root: subprocess.run(["git", *a], cwd=cwd, check=True, capture_output=True, text=True)
+        remote = self.f.tmp / "remote.git"
+        g("init", "-q", "--bare", str(remote), cwd=self.f.tmp)
+        g("init", "-q", "-b", "main"); g("config", "user.email", "t@t"); g("config", "user.name", "t")
+        g("add", "-A"); g("commit", "-q", "-m", "init"); g("remote", "add", "origin", str(remote))
+        self.f.progress = self.f.root / "progress.json"   # progress inside the repo, as in real use
+        self.f.run("enrol", "devops")
+        self.f.complete("devops", "beginner/m01-l01")
+        self.f.run("verify")
+        rc, out = self.f.run("save")
+        self.assertEqual(rc, 0, out)
+        self.assertIn("1 lesson(s) passed", out)
+        self.assertIn("Pushed to origin/main", out)
+        log = g("log", "--oneline", "main", cwd=remote).stdout
+        self.assertIn("Practica progress", log)
+        files = g("ls-tree", "-r", "--name-only", "main", cwd=remote).stdout
+        self.assertIn("progress.json", files)
+        self.assertIn("courses/devops/beginner/m01-l01/workspace/done", files)
+        rc, out = self.f.run("save")
+        self.assertIn("Nothing new to save", out)
+
+    def test_save_outside_git_is_a_clear_error(self):
+        rc, out = self.f.run("save")
+        self.assertEqual(rc, 1)
+        self.assertIn("not a Git repository", out)
+
     def test_concurrent_writes_do_not_lose_attempts(self):
         self.f.run("enrol", "devops")
         with concurrent.futures.ThreadPoolExecutor(8) as ex:

@@ -664,6 +664,55 @@ def cmd_doctor(cat: Catalog, store: Store, args) -> int:
     return EXIT_OK if not issues + errs else EXIT_FAIL
 
 
+def git(*args: str, check: bool = True) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", "-C", str(ROOT), *args], text=True, capture_output=True, check=check)
+
+
+def cmd_save(cat: Catalog, store: Store, args) -> int:
+    """Commit progress and lesson workspaces, then push, so work survives a new machine or session."""
+    if git("rev-parse", "--is-inside-work-tree", check=False).returncode != 0:
+        raise PracticaError(f"{ROOT} is not a Git repository, so there is nowhere to save to.", EXIT_FAIL)
+    paths = []
+    if store.path.resolve().is_relative_to(ROOT.resolve()) and store.path.exists():
+        paths.append(str(store.path.resolve().relative_to(ROOT.resolve())))
+    for cid in cat.courses:
+        for rec in cat.lessons(cid):
+            if rec["dir"] and (rec["dir"] / "workspace").is_dir():
+                paths.append(str((rec["dir"] / "workspace").resolve().relative_to(ROOT.resolve())))
+    if not paths:
+        print("Nothing to save yet.")
+        return EXIT_OK
+    git("add", "-A", "--", *paths)
+    if git("diff", "--cached", "--quiet", check=False).returncode == 0:
+        print("Nothing new to save: your progress and work are already committed.")
+    else:
+        with store.transaction(cat, write=False) as data:
+            pass
+        passed = sum(1 for e in data["enrolments"].values() for s in e["lessons"].values() if s.get("status") == "passed")
+        msg = f"Practica progress: {passed} lesson(s) passed across {len(data['enrolments'])} course(s)"
+        ident = [] if git("config", "user.email", check=False).stdout.strip() else \
+            ["-c", "user.name=Practica learner", "-c", "user.email=learner@practica.local"]
+        subprocess.run(["git", "-C", str(ROOT), *ident, "commit", "-q", "-m", msg], check=True)
+        print(f"Committed: {msg}")
+    if args.no_push:
+        return EXIT_OK
+    if not git("remote", check=False).stdout.strip():
+        print("No Git remote configured; your work is committed locally only.")
+        return EXIT_OK
+    branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+    for attempt in range(4):
+        r = git("push", "-u", "origin", branch, check=False)
+        if r.returncode == 0:
+            print(f"Pushed to origin/{branch}.")
+            return EXIT_OK
+        if attempt < 3:
+            import time
+            time.sleep(2 ** (attempt + 1))
+    print("Push failed; your work is committed locally. Run 'practica save' again later.\n" + r.stderr.strip(),
+          file=sys.stderr)
+    return EXIT_FAIL
+
+
 def cmd_setup(cat: Catalog, store: Store, args) -> int:
     """Create convenience links so lesson paths like ~/devops-lab work in any container."""
     home = Path.home()
@@ -707,6 +756,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--out")
     s = sub.add_parser("doctor", help="validate catalogue and progress"); s.add_argument("--fix-hashes", action="store_true")
     sub.add_parser("setup", help="create ~/practica and ~/devops-lab links")
+    s = sub.add_parser("save", help="commit and push your progress and lesson work")
+    s.add_argument("--no-push", action="store_true")
     args = ap.parse_args(argv)
 
     try:
@@ -718,7 +769,8 @@ def main(argv: list[str] | None = None) -> int:
                     "status": lambda: cmd_status(cat, store, args), "next": lambda: cmd_next(cat, store, args),
                     "verify": lambda: cmd_verify(cat, store, args),
                     "transcript": lambda: cmd_transcript(cat, store, args),
-                    "doctor": lambda: cmd_doctor(cat, store, args), "setup": lambda: cmd_setup(cat, store, args)}
+                    "doctor": lambda: cmd_doctor(cat, store, args), "setup": lambda: cmd_setup(cat, store, args),
+                    "save": lambda: cmd_save(cat, store, args)}
         code = handlers[args.cmd]()
         for n in store.notices:
             print("NOTE " + n, file=sys.stderr)

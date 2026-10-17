@@ -18,10 +18,19 @@ practica next                        # your current lesson, its video, page and 
 practica verify                      # run the checker; the result is recorded
 practica status                      # progress, streak and reviews due across courses
 practica transcript --out me.md      # completed lessons and level certificates
+practica save                        # commit and push progress and lesson work
 ```
 
 The visual course selector is `web/catalog.html` (built by `tools/build-web.py`).
 Load your `progress.json` into it to see your progress on every course.
+
+## Use it any time on claude.ai
+
+Open a new session at https://claude.ai/code with the `practica` repository
+selected. The start-up hook in `.claude/` creates the shortcuts, puts
+`practica` on the PATH and shows Claude your status and current lesson, and
+`CLAUDE.md` tells Claude to act as your instructor. After each lesson,
+`practica save` commits and pushes your progress and work to GitHub.
 
 ## Catalogue
 
@@ -76,6 +85,6 @@ work so it survives a new machine or container.
 | Gate | What it proves |
 |---|---|
 | `practica doctor` | Manifests valid, lesson folders present, checker hashes match |
-| `tests/test_practica.py` | 24 end-to-end tests of progression, reviews, certificates, locking, recovery, migration, tamper detection and both real lessons |
+| `tests/test_practica.py` | 27 end-to-end tests of progression, reviews, certificates, locking, recovery, migration, tamper detection and both real lessons |
 | `tools/selftest-*.sh` | Each checker passes a reference solution and catches deliberate mistakes |
 | `tools/test-*-page.mjs` | Every control on each lesson page and the catalogue works at desktop and phone widths, light and dark |
