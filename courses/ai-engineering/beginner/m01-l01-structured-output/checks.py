@@ -144,6 +144,8 @@ def gives_up():
     m = Scripted()
     try:
         classify("ticket", m, max_attempts=3)
+    except NotImplementedError:
+        raise  # a subclass of RuntimeError: report "not implemented", not "gave up"
     except RuntimeError as e:
         return len(m.prompts) == 3 and "after 3 attempts" in str(e)
     return False
@@ -153,6 +155,8 @@ def custom_limit():
     m = Scripted()
     try:
         classify("ticket", m, max_attempts=5)
+    except NotImplementedError:
+        raise  # a subclass of RuntimeError: report "not implemented", not "gave up"
     except RuntimeError as e:
         return len(m.prompts) == 5 and "after 5 attempts" in str(e)
     return False

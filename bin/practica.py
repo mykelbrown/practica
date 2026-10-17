@@ -555,7 +555,7 @@ def cmd_verify(cat: Catalog, store: Store, args) -> int:
         entry["last_result"] = {"ok": ok, "exit_code": rc, "checks": counts}
         was_passed = entry["status"] == "passed"
         if ok and not was_passed:
-            entry.update(status="passed", passed_at=iso(t), review_step=0,
+            entry.update(status="passed", passed_at=iso(t), attempts_to_pass=entry["attempts"], review_step=0,
                          review_due=iso(t + dt.timedelta(days=REVIEW_INTERVALS[0])))
             event = "passed"
         elif ok and was_passed:
@@ -614,10 +614,12 @@ def cmd_transcript(cat: Catalog, store: Store, args) -> int:
         for lv, at in enr["certificates"].items():
             lines.append(f"- **Certificate: {cat.course(cid)['title']}, {lv.title()} level**, awarded {at[:10]}")
         if done:
-            lines += ["", "| Lesson | Passed | Attempts | Skills |", "|---|---|---|---|"]
+            lines += (["", ] if enr["certificates"] else []) + ["| Lesson | Passed | Attempts to pass | Skills |",
+                                                                 "|---|---|---|---|"]
             for r in done:
                 s = enr["lessons"][r["uid"]]
-                lines.append(f"| {r['title']} | {s['passed_at'][:10]} | {s['attempts']} | {', '.join(r.get('skills', []))} |")
+                lines.append(f"| {r['title']} | {s['passed_at'][:10]} | {s.get('attempts_to_pass', s['attempts'])} "
+                             f"| {', '.join(r.get('skills', []))} |")
         lines.append("")
     text = "\n".join(lines)
     if args.out:

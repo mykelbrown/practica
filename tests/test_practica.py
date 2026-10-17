@@ -211,6 +211,17 @@ class ProgressionTests(unittest.TestCase):
         self.assertNotIn("devops/beginner/m01/l01", d["enrolments"]["devops"]["lessons"])
         self.assertEqual(d["history"][-1]["event"], "tamper")
 
+    def test_transcript_counts_attempts_to_pass_not_reviews(self):
+        self.f.run("enrol", "devops")
+        self.f.run("verify")
+        self.f.complete("devops", "beginner/m01-l01")
+        self.f.run("verify")
+        self.f.run("verify", "devops/beginner/m01/l01", now="2026-10-17T10:00:00")  # a review
+        s = self.f.data()["enrolments"]["devops"]["lessons"]["devops/beginner/m01/l01"]
+        self.assertEqual((s["attempts"], s["attempts_to_pass"]), (3, 2))
+        rc, out = self.f.run("transcript")
+        self.assertIn("| Lesson l01 | 2026-10-15 | 2 |", out)
+
     def test_spaced_review_cycle(self):
         self.f.run("enrol", "devops")
         self.f.complete("devops", "beginner/m01-l01")
