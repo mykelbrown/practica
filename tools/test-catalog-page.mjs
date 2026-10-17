@@ -1,6 +1,6 @@
 // Browser test for web/catalog.html. Usage: node test-catalog-page.mjs <catalog.html> <progress.json>
 import { createRequire } from "node:module";
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, copyFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 const require = createRequire(import.meta.url);
@@ -9,6 +9,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_PATH || "/opt/node22/lib/nod
 const [src, progressFile] = process.argv.slice(2).map(p => path.resolve(p));
 const dir = mkdtempSync(path.join(tmpdir(), "catalog-"));
 writeFileSync(path.join(dir, "index.html"), `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body>${readFileSync(src, "utf8")}</body></html>`);
+for (const f of ["practica-demo.mp4", "practica-demo.webm", "practica-demo-poster.jpg"]) { const m = path.join(path.dirname(src), "demo", f); if (existsSync(m)) copyFileSync(m, path.join(dir, f)); }
 const bad = path.join(dir, "bad.json"); writeFileSync(bad, '{"hello": 1}');
 let pass = 0, fail = 0;
 const check = (n, c, x = "") => { c ? pass++ : fail++; console.log(`${c ? "PASS" : "FAIL"} ${n}${!c && x ? "  -> " + x : ""}`); };
@@ -30,6 +31,7 @@ for (const [label, vp, scheme] of [["desktop/light", { width: 1280, height: 900 
   check("9 courses listed", (await cards()) === 9, String(await cards()));
   check("stats computed (324 lessons)", (await page.textContent("#stats")).includes("324"));
   check("no horizontal scroll", await noScroll());
+  check("demo video playable", await page.evaluate(() => new Promise(res => { const v = document.getElementById("demo"); if (v.readyState >= 1) return res(v.duration > 60); v.onloadedmetadata = () => res(v.duration > 60); setTimeout(() => res(false), 5000); })));
 
   await page.click('#trackChips [data-track="ai"]');
   check("AI field filter -> 2 courses", (await cards()) === 2);

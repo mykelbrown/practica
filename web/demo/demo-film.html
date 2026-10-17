@@ -1,0 +1,69 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Practica demo film</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans:wght@500&display=swap">
+<style>
+:root{--bg:#0E141B;--panel:#0A0F14;--line:#2A3947;--ink:#D9E2EA;--muted:#8496A6;--amber:#F2A93B;--teal:#4FB7C3;--red:#E66A5E;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg)}
+.stage{position:relative;width:1280px;height:720px;overflow:hidden;color:var(--ink);font-family:"IBM Plex Sans",sans-serif;
+ background:radial-gradient(circle at 1px 1px,#1C2733 1px,transparent 0) 0 0/32px 32px,var(--bg)}
+.card{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:0 96px;opacity:0;transition:opacity .5s}
+.card.on{opacity:1}
+.eyebrow{font:600 16px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+h1{font:700 78px/1.02 "IBM Plex Sans Condensed",sans-serif;margin:0}
+.card p{font:500 27px/1.45 "IBM Plex Sans",sans-serif;color:var(--muted);margin:0;max-width:980px}
+.win{position:absolute;left:56px;right:56px;top:40px;bottom:120px;background:var(--panel);border:1px solid var(--line);border-radius:12px;opacity:0;transition:opacity .4s;display:flex;flex-direction:column}
+.win.on{opacity:1}
+.bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font:600 14px/1 "IBM Plex Mono",monospace;color:var(--muted)}
+.bar i{width:12px;height:12px;border-radius:50%;background:#2A3947}.bar span{margin-left:10px}.bar b{margin-left:auto;color:var(--amber);font-weight:600}
+pre{margin:0;padding:18px 22px;font:400 20px/1.5 "IBM Plex Mono",monospace;white-space:pre-wrap;overflow:hidden;flex:1}
+.p{color:var(--teal)}.pass{color:var(--teal);font-weight:600}.fail{color:var(--red);font-weight:600}.hl{color:var(--amber)}.dim{color:var(--muted)}
+.cursor{display:inline-block;width:.6em;background:var(--ink)}
+.cap{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;align-items:center;gap:18px;padding:0 64px;background:#0A0F14;border-top:1px solid var(--line);font:500 25px/1.3 "IBM Plex Sans",sans-serif}
+.cap .n{font:600 16px/1 "IBM Plex Mono",monospace;color:var(--amber);white-space:nowrap}
+.exit{margin-left:auto;font:600 16px/1 "IBM Plex Mono",monospace;padding:8px 12px;border-radius:999px;background:#16202A;color:var(--muted);white-space:nowrap}
+.exit.ok{color:var(--teal)}.exit.bad{color:var(--red)}
+</style></head><body><div class="stage">
+<div class="card" id="title"><div class="eyebrow">Practica · live run</div><h1>One learner, one lesson,<br>start to finish</h1>
+<p>Real output from the practica command, recorded on a throwaway copy. Nothing on screen is mocked.</p></div>
+<div class="win" id="win"><div class="bar"><i></i><i></i><i></i><span>learner@practica: ~</span><b id="clock"></b></div><pre id="term"></pre></div>
+<div class="card" id="end"><div class="eyebrow">What you just saw</div><h1>Progress only<br>when it works</h1>
+<p>Failures recorded, passes unlocked the next lesson, skipping ahead and checker edits were refused, and the review two days later was scheduled automatically.</p></div>
+<div class="cap" id="cap"><span class="n" id="n"></span><span id="note"></span><span class="exit" id="exit"></span></div>
+</div>
+<script>
+const STEPS = [{"cmd": "practica catalog", "out": "\nAI & MACHINE LEARNING  \u00b7  Build, ship and run AI systems\n  ai-engineering     AI Engineering: LLM Apps, RAG & Agents\n                     36 lessons \u00b7 260 h \u00b7 Beginner\u2192Expert \u00b7 1 ready now\n  mlops              MLOps & ML Systems\n                     36 lessons \u00b7 260 h \u00b7 Beginner\u2192Expert \u00b7 0 ready now\n\nINFRASTRUCTURE & PLATFORMS  \u00b7  Run software reliably at scale\n  devops             DevOps & Platform Engineering\n   \u2026 11 more lines (trimmed for the video) \u2026\n  security           Cybersecurity & DevSecOps\n                     36 lessons \u00b7 260 h \u00b7 Beginner\u2192Expert \u00b7 0 ready now\n\u2026", "rc": 0, "note": "Browse every course, grouped by field", "now": "2026-10-17T10:00:00"}, {"cmd": "practica paths", "out": "\nAI Engineer\n  Build and ship LLM products end to end.\n  Python for Automation & AI \u2192 AI-Assisted Software Engineering \u2192 AI Engineering: LLM Apps, RAG & Agents \u2192 MLOps & ML Systems\n\nPlatform / DevOps Engineer\n  Run software and AI workloads reliably.\n  DevOps & Platform Engineering \u2192 Kubernetes & Cloud-Native \u2192 Cloud Architecture\n\n\u2026", "rc": 0, "note": "Career paths chain courses towards a role", "now": "2026-10-17T10:00:00"}, {"cmd": "practica enrol ai-engineering --level beginner", "out": "Enrolled in AI Engineering: LLM Apps, RAG & Agents starting at beginner.\nFirst lesson: ai-engineering/beginner/m01/l01  Structured output: making model replies machine-safe\nRun 'practica next' to begin.", "rc": 0, "note": "Enrol at the level that suits you", "now": "2026-10-17T10:00:00"}, {"cmd": "practica next", "out": "ai-engineering/beginner/m01/l01\nStructured output: making model replies machine-safe\nFoundations \u203a LLM fundamentals for engineers \u00b7 ~75 min\nSkills: JSON extraction, schema validation, retries, testing with fake models\n  Read              ~/practica/courses/ai-engineering/beginner/m01-l01-structured-output/LESSON.md\n  Interactive page  ~/practica/courses/ai-engineering/beginner/m01-l01-structured-output/lesson.html\n  Your workspace    ~/practica/courses/ai-engineering/beginner/m01-l01-structured-output/workspace\n  Online lesson     https://claude.ai/artifact/Uo5EJ2JkYhAwD74hNzoA8o\n\nWhen you are done: practica verify", "rc": 0, "note": "Your current lesson, with its video, page and workspace", "now": "2026-10-17T10:00:00"}, {"cmd": "practica verify", "out": "Checking ai-engineering/beginner/m01/l01  Structured output: making model replies machine-safe\n  FAIL plain JSON object\n       hint: parse_reply is not implemented yet\n  FAIL JSON inside ```json fence with prose around it\n       hint: parse_reply is not implemented yet\n  FAIL JSON inside a bare ``` fence\n       hint: parse_reply is not implemented yet\n  FAIL fence wins over braces in surrounding prose\n       hint: parse_reply is not implemented yet\n   \u2026 45 more lines (trimmed for the video) \u2026\n       hint: classify is not implemented yet\n  FAIL retry prompt contains the actual validation error\n       hint: classify is not implemented yet", "rc": 1, "note": "Day 1: the blank starter fails, and the attempt is recorded", "now": "2026-10-17T10:00:00"}, {"cmd": "practica verify", "out": "Checking ai-engineering/beginner/m01/l01  Structured output: making model replies machine-safe\n  FAIL priority true rejected\n       hint: priority must be an int 1-5; note bool is a subclass of int in Python\nResult: 27 passed, 1 failed\nNot yet. Attempt 2 recorded. Fix the FAIL lines above and run 'practica verify' again.", "rc": 1, "note": "Attempt 2: one bug left, a boolean priority slips through", "now": "2026-10-17T10:00:00"}, {"cmd": "practica verify", "out": "Checking ai-engineering/beginner/m01/l01  Structured output: making model replies machine-safe\nResult: 28 passed, 0 failed\nPASSED. ai-engineering/beginner/m01/l01 recorded as complete (attempt 3).\nFirst review due 2026-10-18: re-run 'practica verify ai-engineering/beginner/m01/l01' then.\nUnlocked: ai-engineering/beginner/m01/l02  Tokens, context windows and cost  (to be built)", "rc": 0, "note": "Attempt 3: fixed, passed, next lesson unlocked", "now": "2026-10-17T10:00:00"}, {"cmd": "practica verify ai-engineering/beginner/m01/l03", "out": "practica: ai-engineering/beginner/m01/l03 is locked. Finish ai-engineering/beginner/m01/l02 first.", "rc": 4, "note": "Lessons unlock in order: skipping ahead is refused", "now": "2026-10-17T10:00:00"}, {"cmd": "practica verify ai-engineering/beginner/m01/l01", "out": "practica: The lesson checker has been modified, so this attempt cannot be recorded. Restore the original files in ~/practica/courses/ai-engineering/beginner/m01-l01-structured-output and try again.", "rc": 5, "note": "Editing the checker to cheat is detected", "now": "2026-10-17T10:00:00"}, {"cmd": "practica status", "out": "Streak: 0 day(s)   Active course: ai-engineering\n\n* AI Engineering: LLM Apps, RAG & Agents  (from beginner)\n   \u2588\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591 1/36 lessons  3%\n   Next: ai-engineering/beginner/m01/l02  Tokens, context windows and cost\n   Reviews due: 1 \u2192 ai-engineering/beginner/m01/l01", "rc": 0, "note": "Progress, streak and reviews across courses", "now": "2026-10-19T09:00:00"}, {"cmd": "practica verify ai-engineering/beginner/m01/l01", "out": "Checking ai-engineering/beginner/m01/l01  Structured output: making model replies machine-safe\nResult: 28 passed, 0 failed\nReview recorded. Next review 2026-10-22.", "rc": 0, "note": "Two days later: the spaced review is re-run and recorded", "now": "2026-10-19T09:00:00"}, {"cmd": "practica transcript", "out": "# Practica transcript\n\nGenerated 2026-10-19T09:05:00\n\n## AI Engineering: LLM Apps, RAG & Agents\n\nEnrolled 2026-10-17 at beginner level \u00b7 1/36 lessons passed\n\n| Lesson | Passed | Attempts to pass | Skills |\n|---|---|---|---|\n| Structured output: making model replies machine-safe | 2026-10-17 | 3 | JSON extraction, schema validation, retries, testing with fake models |", "rc": 0, "note": "A transcript of everything you have passed", "now": "2026-10-19T09:05:00"}];
+const $ = id => document.getElementById(id);
+const esc = t => t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function colour(line){
+  let h = esc(line);
+  h = h.replace(/\b(PASS(ED)?)\b/g,'<span class="pass">$1</span>').replace(/\b(FAIL)\b/g,'<span class="fail">$1</span>');
+  if (/^Result: \d+ passed, 0 failed/.test(line)) h = '<span class="pass">'+h+'</span>';
+  else if (/^Result:/.test(line)) h = '<span class="hl">'+h+'</span>';
+  if (/^(Unlocked|First review|Review recorded|Reviews due)/.test(line.trim())) h = '<span class="hl">'+h+'</span>';
+  if (/^practica: /.test(line)) h = '<span class="fail">'+h+'</span>';
+  if (/hint:/.test(line)) h = '<span class="dim">'+h+'</span>';
+  return h;
+}
+async function play(){
+  $("title").classList.add("on"); $("note").textContent = "A Practica demo"; await sleep(4200);
+  $("title").classList.remove("on"); $("win").classList.add("on");
+  for (let i = 0; i < STEPS.length; i++){
+    const s = STEPS[i], term = $("term");
+    $("n").textContent = `${i+1}/${STEPS.length}`; $("note").textContent = s.note;
+    $("exit").className = "exit"; $("exit").textContent = "";
+    $("clock").textContent = s.now.replace("T"," ").slice(0,16);
+    let typed = "";
+    for (const ch of s.cmd){ typed += ch; term.innerHTML = `<span class="p">$</span> ${esc(typed)}<span class="cursor">&nbsp;</span>`; await sleep(30); }
+    await sleep(350);
+    const head = `<span class="p">$</span> ${esc(s.cmd)}\n`;
+    const lines = s.out.split("\n"); let body = "";
+    for (const l of lines){ body += colour(l) + "\n"; term.innerHTML = head + body; await sleep(lines.length > 12 ? 45 : 90); }
+    $("exit").textContent = "exit " + s.rc; $("exit").classList.add(s.rc === 0 ? "ok" : "bad");
+    await sleep(Math.min(9500, 4200 + lines.length * 260));
+  }
+  $("win").classList.remove("on"); $("end").classList.add("on");
+  $("n").textContent = ""; $("note").textContent = "Try it: practica enrol <course>, then practica next"; $("exit").textContent = "";
+  await sleep(5500); window.FILM_DONE = true;
+}
+document.fonts.ready.then(() => setTimeout(play, 300));
+</script></body></html>
